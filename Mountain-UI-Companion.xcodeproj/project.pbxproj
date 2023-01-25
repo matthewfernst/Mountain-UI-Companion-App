@@ -10,6 +10,10 @@
 		654DEABF297F5E8C001565A3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEABE297F5E8C001565A3 /* Extension.swift */; };
 		654DEAC3297F6720001565A3 /* SlopesConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */; };
 		654DEAC52980FAB5001565A3 /* MadeWithLoveFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */; };
+		654DEACA2981B006001565A3 /* AppSettingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC92981B006001565A3 /* AppSettingTableViewController.swift */; };
+		654DEAD22981BF6D001565A3 /* ProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAD12981BF6D001565A3 /* ProfileTableViewController.swift */; };
+		654DEAD82981CB3F001565A3 /* PopoverButtonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAD72981CB3F001565A3 /* PopoverButtonTableViewCell.swift */; };
+		654DEADA2981D8B0001565A3 /* NotificationSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAD92981D8B0001565A3 /* NotificationSettingsTableViewController.swift */; };
 		65A370DC297E594500E1D851 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A370DB297E594500E1D851 /* AppDelegate.swift */; };
 		65A370DE297E594500E1D851 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A370DD297E594500E1D851 /* SceneDelegate.swift */; };
 		65A370E0297E594500E1D851 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A370DF297E594500E1D851 /* ViewController.swift */; };
@@ -27,6 +31,10 @@
 		654DEABE297F5E8C001565A3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlopesConnectionViewController.swift; sourceTree = "<group>"; };
 		654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeWithLoveFooterView.swift; sourceTree = "<group>"; };
+		654DEAC92981B006001565A3 /* AppSettingTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingTableViewController.swift; sourceTree = "<group>"; };
+		654DEAD12981BF6D001565A3 /* ProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewController.swift; sourceTree = "<group>"; };
+		654DEAD72981CB3F001565A3 /* PopoverButtonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopoverButtonTableViewCell.swift; sourceTree = "<group>"; };
+		654DEAD92981D8B0001565A3 /* NotificationSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsTableViewController.swift; sourceTree = "<group>"; };
 		65A370D8297E594500E1D851 /* Mountain-UI-Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mountain-UI-Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A370DB297E594500E1D851 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65A370DD297E594500E1D851 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +61,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		654DEAC62981ABFB001565A3 /* AccountModel */ = {
+			isa = PBXGroup;
+			children = (
+				65A370F2297E5DCD00E1D851 /* Setting.swift */,
+				65A370F6297E6B5800E1D851 /* Support.swift */,
+			);
+			path = AccountModel;
+			sourceTree = "<group>";
+		};
+		654DEAD32981C1AC001565A3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				654DEAD52981C1CD001565A3 /* ProfileModel */,
+				654DEAD12981BF6D001565A3 /* ProfileTableViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		654DEAD42981C1BA001565A3 /* GeneralSettings */ = {
+			isa = PBXGroup;
+			children = (
+				654DEAD62981C1D6001565A3 /* GeneralSettingsModel */,
+				654DEAC92981B006001565A3 /* AppSettingTableViewController.swift */,
+				654DEAD92981D8B0001565A3 /* NotificationSettingsTableViewController.swift */,
+				654DEAD72981CB3F001565A3 /* PopoverButtonTableViewCell.swift */,
+			);
+			path = GeneralSettings;
+			sourceTree = "<group>";
+		};
+		654DEAD52981C1CD001565A3 /* ProfileModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ProfileModel;
+			sourceTree = "<group>";
+		};
+		654DEAD62981C1D6001565A3 /* GeneralSettingsModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = GeneralSettingsModel;
+			sourceTree = "<group>";
+		};
 		65A370CF297E594500E1D851 = {
 			isa = PBXGroup;
 			children = (
@@ -92,8 +143,9 @@
 			children = (
 				65A370EF297E5D1200E1D851 /* AccountViewController.swift */,
 				654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */,
-				65A370F2297E5DCD00E1D851 /* Setting.swift */,
-				65A370F6297E6B5800E1D851 /* Support.swift */,
+				654DEAD42981C1BA001565A3 /* GeneralSettings */,
+				654DEAD32981C1AC001565A3 /* Profile */,
+				654DEAC62981ABFB001565A3 /* AccountModel */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -186,7 +238,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				654DEADA2981D8B0001565A3 /* NotificationSettingsTableViewController.swift in Sources */,
+				654DEAD82981CB3F001565A3 /* PopoverButtonTableViewCell.swift in Sources */,
+				654DEAD22981BF6D001565A3 /* ProfileTableViewController.swift in Sources */,
 				654DEAC3297F6720001565A3 /* SlopesConnectionViewController.swift in Sources */,
+				654DEACA2981B006001565A3 /* AppSettingTableViewController.swift in Sources */,
 				654DEABF297F5E8C001565A3 /* Extension.swift in Sources */,
 				65A370F3297E5DCD00E1D851 /* Setting.swift in Sources */,
 				65A370E0297E594500E1D851 /* ViewController.swift in Sources */,

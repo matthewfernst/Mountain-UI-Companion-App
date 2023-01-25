@@ -43,7 +43,7 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
         } else {
             explanationTitleLabel.text = "You're All Set!"
             explanationTitleLabel.font = UIFont.boldSystemFont(ofSize: 28)
-            explanationTextView.text = "You've already connected your Slopes data to this app. If we lose access, we will notify you. For now, keep shredding."
+            explanationTextView.text = "You've already connected your Slopes data to this app. If we lose access, we will notify you. For now, keep on shredding."
             explanationTextView.font = UIFont.systemFont(ofSize: 16)
             connectSlopesButton.isHidden = true
             showAllSet()

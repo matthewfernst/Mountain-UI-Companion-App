@@ -7,10 +7,15 @@
 
 import UIKit
 
-enum SettingsSections: Int, CaseIterable {
+enum AllSettingsSections: Int, CaseIterable {
     case profile = 0
     case general = 1
     case support = 2
+}
+
+enum GeneralSettinsSections: Int, CaseIterable {
+    case app = 0
+    case notifications = 1
 }
 
 class AccountViewController: UITableViewController {
@@ -29,11 +34,11 @@ class AccountViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return SettingsSections.allCases.count
+        return AllSettingsSections.allCases.count
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch SettingsSections(rawValue: section) {
+        switch AllSettingsSections(rawValue: section) {
         case .profile:
             return 1
         case .general:
@@ -52,7 +57,7 @@ class AccountViewController: UITableViewController {
         let backgroundColor: UIColor
         var settingImage: UIImage!
         
-        switch SettingsSections(rawValue: indexPath.section) {
+        switch AllSettingsSections(rawValue: indexPath.section) {
         case .profile:
             cell = tableView.dequeueReusableCell(withIdentifier: "Profile", for: indexPath)
             let profileName = "Matthew Ernst"
@@ -110,7 +115,7 @@ class AccountViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch SettingsSections(rawValue: section) {
+        switch AllSettingsSections(rawValue: section) {
         case .general:
             return "Settings"
         case .support:
@@ -121,10 +126,11 @@ class AccountViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        switch SettingsSections(rawValue: section) {
+        switch AllSettingsSections(rawValue: section) {
         case .support:
             let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MadeWithLove") as! MadeWithLoveFooterView
-            footer.title.text = "Made with ❤️+☕️ in San Diego, CA"
+            footer.appVersionLabel.text = "Version 1.0.0"
+            footer.madeWithLoveLabel.text = "Made with ❤️+☕️ in San Diego, CA"
             return footer
         default:
             return nil
@@ -132,7 +138,7 @@ class AccountViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        switch SettingsSections(rawValue: section) {
+        switch AllSettingsSections(rawValue: section) {
         case .support:
             return 100
         default:
@@ -141,17 +147,39 @@ class AccountViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch SettingsSections(rawValue: indexPath.section) {
+        
+        switch AllSettingsSections(rawValue: indexPath.section) {
+        case .profile:
+            if let profileVC = self.storyboard?.instantiateViewController(withIdentifier: "ProfileTableView") as? ProfileTableViewController {
+                self.navigationController?.pushViewController(profileVC, animated: true)
+            }
+            
         case .general:
-            print("TODO")
-            break
+            switch GeneralSettinsSections(rawValue: indexPath.row) {
+            case .app:
+                if let appVC = self.storyboard?.instantiateViewController(withIdentifier: "AppSettingTableView") as? AppSettingTableViewController {
+                    self.navigationController?.pushViewController(appVC, animated: true)
+                }
+                
+            case .notifications:
+                if let notificationVC = self.storyboard?.instantiateViewController(withIdentifier: "NotificationSettingsTableView") as? NotificationSettingsTableViewController {
+                    self.navigationController?.pushViewController(notificationVC, animated: true)
+                }
+                
+            default:
+                return
+            }
+            
+
         case .support:
             if let url = URL(string: self.supportSettings[indexPath.row].link) {
                 UIApplication.shared.open(url)
             }
+            
         default:
             break
         }
+        
     }
 }
 

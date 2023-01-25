@@ -9,13 +9,21 @@ import UIKit
 
 class MadeWithLoveFooterView: UITableViewHeaderFooterView {
     
-    let title = UILabel()
+    let madeWithLoveLabel = UILabel()
+    let appVersionLabel = UILabel()
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         configureContents()
-        title.font = UIFont.systemFont(ofSize: 11)
-        title.textColor = .secondaryLabel
+        
+        appVersionLabel.font = UIFont.systemFont(ofSize: 11)
+        appVersionLabel.textColor = .secondaryLabel
+        
+        
+        madeWithLoveLabel.font = UIFont.systemFont(ofSize: 11)
+        madeWithLoveLabel.textColor = .secondaryLabel
+        
+
     }
     
     required init?(coder: NSCoder) {
@@ -23,14 +31,21 @@ class MadeWithLoveFooterView: UITableViewHeaderFooterView {
     }
     
     func configureContents() {
-        title.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentView.addSubview(title)
+        appVersionLabel.translatesAutoresizingMaskIntoConstraints = false
+        madeWithLoveLabel.translatesAutoresizingMaskIntoConstraints = false
+    
+        contentView.addSubview(appVersionLabel)
+        contentView.addSubview(madeWithLoveLabel)
     
         NSLayoutConstraint.activate([
-            title.heightAnchor.constraint(equalToConstant: 30),
-            title.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            title.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0)
+            appVersionLabel.heightAnchor.constraint(equalToConstant: 30),
+            appVersionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 20),
+            appVersionLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            
+            madeWithLoveLabel.heightAnchor.constraint(equalToConstant: 30),
+            madeWithLoveLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            madeWithLoveLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
     

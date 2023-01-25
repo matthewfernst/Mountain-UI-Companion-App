@@ -9,6 +9,6 @@ import Foundation
 
 enum Constants {
     static let twitter = "https://twitter.com/ErnstMatthew"
-    static let github = "https://github.com/matthewfernst/MountainUI-Companion-App"
+    static let github = "https://github.com/matthewfernst/Mountain-UI-Companion-App"
     static let buyMeCoffee = "https://www.buymeacoffee.com/matthewfernst"
 }
