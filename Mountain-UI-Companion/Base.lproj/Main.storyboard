@@ -17,6 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <tabBarAppearance key="standardAppearance"/>
+                        <tabBarAppearance key="scrollEdgeAppearance"/>
                     </tabBar>
                     <connections>
                         <segue destination="6ud-3H-V0X" kind="relationship" relationship="viewControllers" id="4B7-ka-jpt"/>
@@ -28,11 +30,11 @@
             </objects>
             <point key="canvasLocation" x="-866" y="-222"/>
         </scene>
-        <!--Hookup-->
+        <!--Connect-->
         <scene sceneID="8JM-on-fj6">
             <objects>
                 <navigationController id="6ud-3H-V0X" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Hookup" image="powerplug.fill" catalog="system" id="YgD-uM-V8h"/>
+                    <tabBarItem key="tabBarItem" title="Connect" image="powerplug.fill" catalog="system" id="YgD-uM-V8h"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NTK-q4-LWW">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -45,10 +47,10 @@
             </objects>
             <point key="canvasLocation" x="-1575" y="456"/>
         </scene>
-        <!--Slopes Hookup View Controller-->
+        <!--Slopes Connection View Controller-->
         <scene sceneID="OfY-gM-Npx">
             <objects>
-                <viewController id="uel-YM-gdd" customClass="SlopesHookupViewController" customModule="Mountain_UI_Companion" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="uel-YM-gdd" customClass="SlopesConnectionViewController" customModule="Mountain_UI_Companion" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mzZ-ta-53v">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -295,10 +297,10 @@
             </objects>
             <point key="canvasLocation" x="-866.41221374045801" y="1114.7887323943662"/>
         </scene>
-        <!--Profile View Controller-->
+        <!--Account View Controller-->
         <scene sceneID="RMd-vK-uZg">
             <objects>
-                <tableViewController id="gPG-GZ-bTH" customClass="ProfileViewController" customModule="Mountain_UI_Companion" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="gPG-GZ-bTH" customClass="AccountViewController" customModule="Mountain_UI_Companion" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" id="pme-gA-aMg">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -327,6 +329,7 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <color key="tintColor" systemColor="labelColor"/>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Setting" id="hPT-5r-rwx">
                                 <rect key="frame" x="20" y="125.33333206176758" width="353" height="43.666667938232422"/>

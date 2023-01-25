@@ -13,6 +13,7 @@ enum SessionSection: Int, CaseIterable {
 }
 
 class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     @IBOutlet var profileImageView: UIImageView!
     @IBOutlet var lifetimeTotalVerticalFeet: UILabel!
     @IBOutlet var lifetimeDaysOnMountainLabel: UILabel!
@@ -32,9 +33,8 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         let profileName = "Matthew Ernst"
         let profileImage = profileName.initials.image(withAttributes: [
-            .foregroundColor: UIColor.black,
             .font: UIFont.systemFont(ofSize: 45, weight: .medium),
-        ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))
+        ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))?.withTintColor(.label)
         profileImageView.image = profileImage
         profileImageView.backgroundColor = .secondarySystemBackground
         profileImageView.layer.masksToBounds = true
@@ -78,9 +78,8 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
                 .paragraphStyle: paragraph
             ]
             
-            let dateOfSession = "Jan\n2".image(withAttributes: dateOfSessionAttributes, size: CGSize(width: 50, height: 50), move: CGPoint(x: 0, y: 5))
+            let dateOfSession = "Jan\n2".image(withAttributes: dateOfSessionAttributes, size: CGSize(width: 50, height: 50), move: CGPoint(x: 0, y: 5))?.withTintColor(.label)
             cell.imageView?.image = dateOfSession
-//            cell.imageView?.backgroundColor = .red
             cell.backgroundColor = .secondarySystemBackground
             return cell
             

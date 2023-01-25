@@ -13,21 +13,25 @@ enum SettingsSections: Int, CaseIterable {
     case support = 2
 }
 
-class ProfileViewController: UITableViewController {
-    private var generalSettings = exampleSettings
+class AccountViewController: UITableViewController {
+    
+    private var generalSettings = settingOptions
     private var supportSettings = supportOptions
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Account"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.view.backgroundColor = .secondarySystemBackground
+        
+        // Register the custom header view.
+        tableView.register(MadeWithLoveFooterView.self,
+                           forHeaderFooterViewReuseIdentifier: "MadeWithLove")
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return SettingsSections.allCases.count
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch SettingsSections(rawValue: section) {
         case .profile:
@@ -57,15 +61,15 @@ class ProfileViewController: UITableViewController {
             cell.textLabel?.numberOfLines = 2
             // TODO: Add profile pic if there is one!
             let profileImage = profileName.initials.image(withAttributes: [
-                .foregroundColor: UIColor.black,
                 .font: UIFont.systemFont(ofSize: 24, weight: .medium),
-            ], size: CGSize(width: 60, height: 60), move: CGPoint(x: 13, y: 15))
+            ], size: CGSize(width: 60, height: 60), move: CGPoint(x: 13, y: 15))?.withTintColor(.label)
             cell.imageView?.image = profileImage
             cell.imageView?.layer.masksToBounds = true
             cell.imageView?.clipsToBounds = true
             cell.imageView?.layer.cornerRadius = 30
-            cell.imageView?.backgroundColor = .secondarySystemBackground
+            cell.imageView?.backgroundColor = .systemBackground
             cell.imageView?.contentMode = .scaleToFill
+            cell.backgroundColor = .secondarySystemBackground
             return cell
             
         case .general:
@@ -80,6 +84,7 @@ class ProfileViewController: UITableViewController {
             cell.tintColor = .white
             cell.imageView?.layer.cornerRadius = 5
             cell.imageView?.backgroundColor = backgroundColor
+            cell.backgroundColor = .secondarySystemBackground
             return cell
             
         case .support:
@@ -92,9 +97,12 @@ class ProfileViewController: UITableViewController {
             cell.imageView?.image = settingImage
             cell.textLabel?.text = name
             cell.tintColor = .white
+            cell.imageView?.layer.masksToBounds = true
             cell.imageView?.layer.cornerRadius = 5
             cell.imageView?.backgroundColor = backgroundColor
+            cell.backgroundColor = .secondarySystemBackground
             return cell
+            
         default:
             return UITableViewCell()
         }
@@ -109,6 +117,26 @@ class ProfileViewController: UITableViewController {
             return "Show your support"
         default:
             return nil
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        switch SettingsSections(rawValue: section) {
+        case .support:
+            let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "MadeWithLove") as! MadeWithLoveFooterView
+            footer.title.text = "Made with ❤️+☕️ in San Diego, CA"
+            return footer
+        default:
+            return nil
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        switch SettingsSections(rawValue: section) {
+        case .support:
+            return 100
+        default:
+            return 0
         }
     }
     

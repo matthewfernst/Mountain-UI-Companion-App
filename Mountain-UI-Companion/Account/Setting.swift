@@ -17,7 +17,7 @@ struct Setting {
 }
 
 
-let exampleSettings: [Setting] = [
+let settingOptions: [Setting] = [
     .init(name: "General", iconName: "slider.vertical.3", backgroundColor: .systemBlue),
     .init(name: "Notifications", iconName: "bell.badge.fill", backgroundColor: .red),
 ]

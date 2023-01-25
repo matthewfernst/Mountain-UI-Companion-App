@@ -14,7 +14,8 @@ extension UTType {
     }
 }
 
-class SlopesHookupViewController: UIViewController, UIDocumentPickerDelegate {
+class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate {
+    
     @IBOutlet var explanationTitleLabel: UILabel!
     @IBOutlet var explanationTextView: UITextView!
     @IBOutlet var slopesFolderImageView: UIImageView!
@@ -45,23 +46,13 @@ class SlopesHookupViewController: UIViewController, UIDocumentPickerDelegate {
             explanationTextView.text = "You've already connected your Slopes data to this app. If we lose access, we will notify you. For now, keep shredding."
             explanationTextView.font = UIFont.systemFont(ofSize: 16)
             connectSlopesButton.isHidden = true
+            showAllSet()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         if !bookmarks.isEmpty {
-            slopesFolderImageView.tintColor = .systemBlue
-            slopesFolderImageView.image = UIImage(systemName: "hand.thumbsup.fill")
-            slopesFolderImageView.alpha = 0
-            self.slopesFolderImageView.transform = .identity
-            UIButton.animate(withDuration: 1, delay: 0, animations: {
-                self.slopesFolderImageView.alpha = 1
-                self.slopesFolderImageView.transform = CGAffineTransform(rotationAngle: -.pi / 4)
-            }, completion: {_ in
-                UIButton.animate(withDuration: 2, delay: 0,  usingSpringWithDamping: 0.4, initialSpringVelocity: 0.5, animations: {
-                    self.slopesFolderImageView.transform = .identity
-                })
-            })
+            showAllSet()
         }
     }
     
@@ -69,6 +60,20 @@ class SlopesHookupViewController: UIViewController, UIDocumentPickerDelegate {
         present(documentPicker, animated: true)
     }
     
+    func showAllSet() {
+        slopesFolderImageView.tintColor = .systemBlue
+        slopesFolderImageView.image = UIImage(systemName: "hand.thumbsup.fill")
+        slopesFolderImageView.alpha = 0
+        self.slopesFolderImageView.transform = .identity
+        UIButton.animate(withDuration: 1, delay: 0, animations: {
+            self.slopesFolderImageView.alpha = 1
+            self.slopesFolderImageView.transform = CGAffineTransform(rotationAngle: -.pi / 4)
+        }, completion: {_ in
+            UIButton.animate(withDuration: 2, delay: 0,  usingSpringWithDamping: 0.4, initialSpringVelocity: 0.5, animations: {
+                self.slopesFolderImageView.transform = .identity
+            })
+        })
+    }
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let url = urls[0]
@@ -132,7 +137,7 @@ class SlopesHookupViewController: UIViewController, UIDocumentPickerDelegate {
                 
                 // Add the URL and UUID to the urls
                 bookmarks.append((uuid, url))
-                
+                self.viewDidLoad()
             }
             catch {
                 // Handle the error here.
