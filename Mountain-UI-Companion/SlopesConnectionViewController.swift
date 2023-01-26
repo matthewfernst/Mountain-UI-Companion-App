@@ -77,19 +77,23 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let url = urls[0]
+        
+        guard url.startAccessingSecurityScopedResource() else {
+            // Handle the failure here.
+            return
+        }
+        
+        defer { url.stopAccessingSecurityScopedResource() }
+        
         let keys: [URLResourceKey] = [.nameKey, .isDirectoryKey]
         
         guard let fileList = FileManager.default.enumerator(at: url, includingPropertiesForKeys: keys) else {
             Swift.debugPrint("*** Unable to access the contents of \(url.path) ***\n")
             return
         }
-        
+
         for case let file as URL in fileList {
-            guard url.startAccessingSecurityScopedResource() else {
-                // Handle the failure here.
-                continue
-            }
-    
+            print(file.pathExtension)
             if file.pathExtension == "slopes" {
                 
                 // TODO: Now upload to AWS instance.

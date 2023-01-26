@@ -18,13 +18,6 @@ enum GeneralSettinsSections: Int, CaseIterable {
     case notifications = 1
 }
 
-struct SettingsOption {
-    let title: String
-    let icon: UIImage?
-    let iconBackgroundColor: UIColor
-    let handler: (() -> Void)
-}
-
 class AccountViewController: UITableViewController {
     
     private var generalSettings = settingOptions
