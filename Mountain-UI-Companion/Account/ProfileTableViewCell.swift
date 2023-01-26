@@ -61,10 +61,10 @@ class ProfileTableViewCell: UITableViewCell {
     
     public func configure(with profile: Profile) {
         profileImageContainer.backgroundColor = .systemBackground
-        profileImageView.image = profile.profilePicture
+        profileImageView.image = profile.profilePicture ?? profile.defaultProfilePictures[DefaultProfilePictureIndex.accountSettings.rawValue]
         usersNameLabel.text = profile.userName
         editProfileAndAccountLabel.text = "Edit Account & Profile"
-        self.backgroundColor = .secondarySystemBackground
+        self.backgroundColor = .systemGroupedBackground
         
     }
     

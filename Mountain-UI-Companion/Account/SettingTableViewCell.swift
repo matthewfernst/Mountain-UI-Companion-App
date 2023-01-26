@@ -8,6 +8,7 @@
 import UIKit
 
 class SettingTableViewCell: UITableViewCell {
+    
     static let identifier = "SettingTableViewCell"
     
     private let iconContainer: UIView = {
@@ -54,7 +55,7 @@ class SettingTableViewCell: UITableViewCell {
         label.text = setting.name
         iconImageView.image = setting.iconImage
         iconContainer.backgroundColor = setting.backgroundColor
-        self.backgroundColor = .secondarySystemBackground
+        self.backgroundColor = .systemGroupedBackground
     }
     
     override func layoutSubviews() {

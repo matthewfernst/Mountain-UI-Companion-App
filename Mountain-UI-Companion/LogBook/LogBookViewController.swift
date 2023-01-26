@@ -22,6 +22,8 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var allLifetimeStateButton: UIButton!
     @IBOutlet var sessionSummaryTableView: UITableView!
     
+    var profile = exampleProfile
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,11 +32,10 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         sessionSummaryTableView.delegate = self
         sessionSummaryTableView.dataSource = self
+        sessionSummaryTableView.register(SessionTableViewCell.self, forCellReuseIdentifier: SessionTableViewCell.identifier)
+        sessionSummaryTableView.rowHeight = 66.0
         
-        let profileName = "Matthew Ernst"
-        let profileImage = profileName.initials.image(withAttributes: [
-            .font: UIFont.systemFont(ofSize: 45, weight: .medium),
-        ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))?.withTintColor(.label)
+        let profileImage = profile.profilePicture ?? profile.defaultProfilePictures[DefaultProfilePictureIndex.logBook.rawValue]        
         profileImageView.image = profileImage
         profileImageView.backgroundColor = .secondarySystemBackground
         profileImageView.layer.masksToBounds = true
@@ -62,25 +63,16 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
             let cell = tableView.dequeueReusableCell(withIdentifier: "SeasonSummaryCell", for: indexPath)
             cell.textLabel?.text = "Season Summary"
             cell.detailTextLabel?.text = "5 runs | 2 days | 4.3k FT"
-            cell.backgroundColor = .secondarySystemBackground
+            cell.detailTextLabel?.textColor = .secondaryLabel
+            cell.backgroundColor = .systemGroupedBackground
             return cell
             
         case .sessionSummary:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "SeasonSummaryCell", for: indexPath)
-            cell.textLabel?.text = "Steamboat Ski Resort"
-            cell.detailTextLabel?.text = "3 runs | 1H 25M"
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SessionTableViewCell.identifier, for: indexPath) as? SessionTableViewCell else {
+                return UITableViewCell()
+            }
             
-            let paragraph = NSMutableParagraphStyle()
-            paragraph.alignment = .center
-            
-            let dateOfSessionAttributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: 16),
-                .paragraphStyle: paragraph
-            ]
-            
-            let dateOfSession = "Jan\n2".image(withAttributes: dateOfSessionAttributes, size: CGSize(width: 50, height: 50), move: CGPoint(x: 0, y: 5))?.withTintColor(.label)
-            cell.imageView?.image = dateOfSession
-            cell.backgroundColor = .secondarySystemBackground
+            cell.configure()
             return cell
             
         default:
@@ -101,9 +93,17 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
         switch SessionSection(rawValue: section) {
         case .seasonSummary:
             let header = UILabel()
-            header.text = "2022/2023"
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy"
+            
+            let currentYear = dateFormatter.string(from: .now)
+            let pastYear = String((Int(currentYear) ?? 0) - 1)
+            
+            header.text = "\(pastYear)/\(currentYear)"
             header.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+            
             return header
+            
         default:
             return nil
         }
