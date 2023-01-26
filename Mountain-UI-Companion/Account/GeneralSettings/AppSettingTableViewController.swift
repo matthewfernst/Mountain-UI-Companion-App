@@ -51,7 +51,7 @@ class AppSettingTableViewController: UITableViewController {
         default:
             return UITableViewCell()
         }
-        cell.backgroundColor = .systemGroupedBackground
+        cell.backgroundColor = .secondarySystemBackground
         return cell
     }
     

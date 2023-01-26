@@ -55,7 +55,7 @@ class SettingTableViewCell: UITableViewCell {
         label.text = setting.name
         iconImageView.image = setting.iconImage
         iconContainer.backgroundColor = setting.backgroundColor
-        self.backgroundColor = .systemGroupedBackground
+        self.backgroundColor = .secondarySystemBackground
     }
     
     override func layoutSubviews() {

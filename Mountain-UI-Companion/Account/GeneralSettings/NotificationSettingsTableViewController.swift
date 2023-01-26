@@ -33,7 +33,7 @@ class NotificationSettingsTableViewController: UITableViewController {
         notificationSwitch.sizeToFit()
         
         cell.accessoryView = notificationSwitch
-        cell.backgroundColor = .systemGroupedBackground
+        cell.backgroundColor = .secondarySystemBackground
         return cell
     }
 

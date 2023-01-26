@@ -50,7 +50,7 @@ class EditProfileTableViewController: UITableViewController {
         default:
             return cell
         }
-        cell.backgroundColor = .systemGroupedBackground
+        cell.backgroundColor = .secondarySystemBackground
         return cell
         
     }

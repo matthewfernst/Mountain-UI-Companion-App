@@ -64,7 +64,7 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
             cell.textLabel?.text = "Season Summary"
             cell.detailTextLabel?.text = "5 runs | 2 days | 4.3k FT"
             cell.detailTextLabel?.textColor = .secondaryLabel
-            cell.backgroundColor = .systemGroupedBackground
+            cell.backgroundColor = .secondarySystemBackground
             return cell
             
         case .sessionSummary:

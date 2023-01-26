@@ -64,7 +64,7 @@ class ProfileTableViewCell: UITableViewCell {
         profileImageView.image = profile.profilePicture ?? profile.defaultProfilePictures[DefaultProfilePictureIndex.accountSettings.rawValue]
         usersNameLabel.text = profile.userName
         editProfileAndAccountLabel.text = "Edit Account & Profile"
-        self.backgroundColor = .systemGroupedBackground
+        self.backgroundColor = .secondarySystemBackground
         
     }
     

@@ -84,7 +84,7 @@ class SessionTableViewCell: UITableViewCell {
         ]
         
         resortDateImageView.image = "Jan\n2".image(withAttributes: dateOfSessionAttributes, move: .zero)?.withTintColor(.label)
-        self.backgroundColor = .systemGroupedBackground
+        self.backgroundColor = .secondarySystemBackground
     }
     
     override func layoutSubviews() {
