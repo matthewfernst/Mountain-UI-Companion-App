@@ -12,7 +12,9 @@ enum ProfileSections: Int, CaseIterable {
     case signOut = 1
 }
 
-class ProfileTableViewController: UITableViewController {
+class EditProfileTableViewController: UITableViewController {
+    
+    static var identifier = "EditProfileTableViewController"
 
     override func viewDidLoad() {
         super.viewDidLoad()

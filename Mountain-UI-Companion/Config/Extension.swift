@@ -21,12 +21,12 @@ extension UIImage {
             width: size.width * scaleFactor,
             height: size.height * scaleFactor
         )
-
+        
         // Draw and return the resized UIImage
         let renderer = UIGraphicsImageRenderer(
             size: scaledImageSize
         )
-
+        
         let scaledImage = renderer.image { _ in
             self.draw(in: CGRect(
                 origin: .zero,
@@ -67,5 +67,15 @@ extension String {
         return initials
     }
     
+}
+
+extension UIColor {
+    static var twitterBlue: UIColor {
+        return UIColor(red: 29 / 255, green: 161 / 255, blue: 242 / 255, alpha: 1)
+    }
+    
+    static var buyMeCoffeeYellow: UIColor {
+        return UIColor(red: 274 / 255, green: 222 / 255, blue: 74 / 255, alpha: 1)
+    }
 }
 

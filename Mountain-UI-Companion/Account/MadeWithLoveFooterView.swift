@@ -8,6 +8,7 @@
 import UIKit
 
 class MadeWithLoveFooterView: UITableViewHeaderFooterView {
+    static var identifier = "MadeWithLoverFooterView"
     
     let madeWithLoveLabel = UILabel()
     let appVersionLabel = UILabel()
