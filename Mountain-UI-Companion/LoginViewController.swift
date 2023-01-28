@@ -19,7 +19,8 @@ class LoginViewController: UIViewController {
         self.view.backgroundColor = .signBackgroundLavendar
         self.appLabel.clipsToBounds = true
         self.appLabel.layer.cornerRadius = 10
-        
+        self.appLabel.layer.borderWidth = 1.5
+        self.appLabel.layer.borderColor = UIColor.black.cgColor
         self.learnMoreButton.addTarget(self, action: #selector(showMountainUIDisplayPage), for: .touchUpInside)
         
         setupProviderLoginView()
@@ -33,7 +34,7 @@ class LoginViewController: UIViewController {
     }
     
     func setupProviderLoginView() {
-        let authorizationButton = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .black)
+        let authorizationButton = ASAuthorizationAppleIDButton(authorizationButtonType: .signIn, authorizationButtonStyle: .white)
         authorizationButton.addTarget(self, action: #selector(handleAuthorizationAppleIDButtonPress), for: .touchUpInside)
         self.view.addSubview(authorizationButton)
 
