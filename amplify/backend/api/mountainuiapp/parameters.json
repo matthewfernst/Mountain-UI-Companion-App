@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "mountainuiapp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authmountainuiappaadd2984",
+      "Outputs.UserPoolId"
+    ]
+  }
+}
