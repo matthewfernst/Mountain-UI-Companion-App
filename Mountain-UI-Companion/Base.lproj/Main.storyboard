@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vTQ-fC-hKE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1q6-pJ-EvQ">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
@@ -9,10 +9,78 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="fJT-xZ-gFj">
+            <objects>
+                <viewController storyboardIdentifier="LoginVC" id="1q6-pJ-EvQ" customClass="LoginViewController" customModule="Mountain_UI_Companion" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Vt7-M1-c0P">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="vecteezy_ski-lift-and-winter-activities-concept-positive-young_13489041" translatesAutoresizingMaskIntoConstraints="NO" id="EzZ-7f-TgO">
+                                <rect key="frame" x="0.0" y="-18" width="423" height="625"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="625" id="qZ7-XQ-A5U"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mountain-UI Companion App" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30o-R3-J92">
+                                <rect key="frame" x="16" y="617.66666666666663" width="361" height="30"/>
+                                <color key="backgroundColor" red="0.64332395789999997" green="0.74113994839999997" blue="0.73333495859999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
+                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is the Mountain-UI?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Yd-qr-1yf">
+                                <rect key="frame" x="95" y="804.66666666666663" width="133.33333333333337" height="13.333333333333371"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="13.333333333333371" id="mLi-oi-apH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QxK-Ba-fvh">
+                                <rect key="frame" x="220" y="797" width="85" height="27.666666666666629"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Learn More">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="11"/>
+                                    <color key="baseForegroundColor" systemColor="linkColor"/>
+                                </buttonConfiguration>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Jfu-1C-LNU"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="tintColor" red="0.88643902539999997" green="0.90970200300000004" blue="0.96863704920000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Jfu-1C-LNU" firstAttribute="bottom" secondItem="4Yd-qr-1yf" secondAttribute="bottom" constant="1.1368683772161603e-13" id="0te-p2-3BS"/>
+                            <constraint firstItem="Jfu-1C-LNU" firstAttribute="trailing" secondItem="QxK-Ba-fvh" secondAttribute="trailing" constant="88" id="1pN-Da-TUu"/>
+                            <constraint firstItem="QxK-Ba-fvh" firstAttribute="bottom" secondItem="Jfu-1C-LNU" secondAttribute="bottom" constant="3.3333333333332575" id="BRl-k1-5q7"/>
+                            <constraint firstItem="30o-R3-J92" firstAttribute="trailing" secondItem="Vt7-M1-c0P" secondAttribute="trailingMargin" id="E4W-h1-MqC"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="EzZ-7f-TgO" secondAttribute="trailing" constant="-46" id="IKY-Vf-y2Z"/>
+                            <constraint firstItem="30o-R3-J92" firstAttribute="top" secondItem="EzZ-7f-TgO" secondAttribute="bottom" constant="10.666666666666629" id="M0b-y6-wdD"/>
+                            <constraint firstItem="4Yd-qr-1yf" firstAttribute="leading" secondItem="Jfu-1C-LNU" secondAttribute="leading" constant="95" id="NT7-Bz-ZNn"/>
+                            <constraint firstItem="EzZ-7f-TgO" firstAttribute="top" secondItem="Vt7-M1-c0P" secondAttribute="topMargin" constant="-77" id="RUf-Rt-J3h"/>
+                            <constraint firstItem="EzZ-7f-TgO" firstAttribute="leading" secondItem="Jfu-1C-LNU" secondAttribute="leading" id="Tet-p1-gpA"/>
+                            <constraint firstItem="30o-R3-J92" firstAttribute="leading" secondItem="Vt7-M1-c0P" secondAttribute="leadingMargin" id="cBX-QA-gdh"/>
+                            <constraint firstItem="4Yd-qr-1yf" firstAttribute="centerY" secondItem="QxK-Ba-fvh" secondAttribute="centerY" id="dXN-Zn-VyV"/>
+                            <constraint firstItem="QxK-Ba-fvh" firstAttribute="leading" secondItem="Jfu-1C-LNU" secondAttribute="leading" constant="220" id="nj2-vB-G8t"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="oS8-ti-3CA"/>
+                    <connections>
+                        <outlet property="appLabel" destination="30o-R3-J92" id="Fqb-9t-OlD"/>
+                        <outlet property="learnMoreButton" destination="QxK-Ba-fvh" id="WER-Ly-BgS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6es-u5-KUi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-866.41221374045801" y="-930.28169014084517"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="5b3-LL-357">
             <objects>
-                <tabBarController id="vTQ-fC-hKE" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabController" id="vTQ-fC-hKE" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="szM-zI-j5P"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="g4g-nm-2u7">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -50,7 +118,7 @@
         <!--Slopes Connection View Controller-->
         <scene sceneID="OfY-gM-Npx">
             <objects>
-                <viewController id="uel-YM-gdd" customClass="SlopesConnectionViewController" customModule="Mountain_UI_Companion" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SlopesConnection" id="uel-YM-gdd" customClass="SlopesConnectionViewController" customModule="Mountain_UI_Companion" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mzZ-ta-53v">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -58,7 +126,7 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="QAS-4o-LNN">
                                 <rect key="frame" x="16" y="204" width="361" height="202"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <mutableString key="text">The Mountain-UI Companion App works together with the Slopes App by Breakpoint Studios. Slopes is able to track a skier or snowboarder while they shred it down the mountain. Slopes can track things such as average speed, total vertical feet, and more. The Mountain-UI Companion App, uses the data stored by Slopes and sends it to your Mountain-UI display. In order to get started, tap the "Connect Slopes" button and select the Slopes folder in your Files directory. The Slopes directory is shown below for reference.</mutableString>
+                                <string key="text">The Mountain-UI Companion App works together with the Slopes App by Breakpoint Studios. Slopes is able to track a skier or snowboarder while they shred it down the mountain. Slopes can track things such as average speed, total vertical feet, and more. The Mountain-UI Companion App, uses the data stored by Slopes and sends it to your Mountain-UI display. In order to get started, tap the "Connect Slopes" button and select the Slopes folder in your Files directory. The Slopes directory is shown below for reference.</string>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -455,8 +523,12 @@
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="powerplug.fill" catalog="system" width="128" height="82"/>
         <image name="slopesLightFolder" width="349" height="364"/>
+        <image name="vecteezy_ski-lift-and-winter-activities-concept-positive-young_13489041" width="1920" height="1280"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="linkColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>

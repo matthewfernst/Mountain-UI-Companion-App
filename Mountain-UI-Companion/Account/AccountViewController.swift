@@ -20,9 +20,9 @@ enum GeneralSettinsSections: Int, CaseIterable {
 
 class AccountViewController: UITableViewController {
     
-    private var generalSettings = settingOptions
-    private var supportSettings = supportOptions
-    private var profile = exampleProfile
+    private var generalSettings = Setting.sampleSettingOptions
+    private var supportSettings = Support.sampleSupportOptions
+    private var profile = Profile.sampleProfile
     
     override func viewDidLoad() {
         super.viewDidLoad()

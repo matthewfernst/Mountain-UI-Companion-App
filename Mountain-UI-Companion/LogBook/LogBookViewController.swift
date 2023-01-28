@@ -22,13 +22,15 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var allLifetimeStateButton: UIButton!
     @IBOutlet var sessionSummaryTableView: UITableView!
     
-    var profile = exampleProfile
+    var profile = Profile.sampleProfile
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "LogBook"
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(explainMoreWithSlopes))
         
         sessionSummaryTableView.delegate = self
         sessionSummaryTableView.dataSource = self
@@ -40,6 +42,19 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
         profileImageView.backgroundColor = .secondarySystemBackground
         profileImageView.layer.masksToBounds = true
         profileImageView.layer.cornerRadius = 55
+    }
+    
+    @objc func explainMoreWithSlopes() {
+        
+        let message = """
+                      This data comes from the Slopes app and is a way to quickly see your data being used. For more detailed information, vist your Slopes app.
+                      """
+        
+        let ac = UIAlertController(title: "Information Taken From Slopes", message: message, preferredStyle: .actionSheet)
+        
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(ac, animated: true)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -107,10 +122,6 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
         default:
             return nil
         }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
 }
 

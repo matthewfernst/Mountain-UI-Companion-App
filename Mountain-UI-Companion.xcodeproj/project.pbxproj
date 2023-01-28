@@ -18,6 +18,8 @@
 		654DEADE2981F8C9001565A3 /* ProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEADD2981F8C9001565A3 /* ProfileTableViewCell.swift */; };
 		654DEAE029820806001565A3 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEADF29820806001565A3 /* Profile.swift */; };
 		654DEAE429824134001565A3 /* SessionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAE329824134001565A3 /* SessionTableViewCell.swift */; };
+		654DEAE82983933C001565A3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAE72983933C001565A3 /* LoginViewController.swift */; };
+		654DEAEA298394E0001565A3 /* SignInWithAppleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAE9298394E0001565A3 /* SignInWithAppleButton.swift */; };
 		65A370DC297E594500E1D851 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A370DB297E594500E1D851 /* AppDelegate.swift */; };
 		65A370DE297E594500E1D851 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A370DD297E594500E1D851 /* SceneDelegate.swift */; };
 		65A370E0297E594500E1D851 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65A370DF297E594500E1D851 /* ViewController.swift */; };
@@ -43,6 +45,8 @@
 		654DEADD2981F8C9001565A3 /* ProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTableViewCell.swift; sourceTree = "<group>"; };
 		654DEADF29820806001565A3 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		654DEAE329824134001565A3 /* SessionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionTableViewCell.swift; sourceTree = "<group>"; };
+		654DEAE72983933C001565A3 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		654DEAE9298394E0001565A3 /* SignInWithAppleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleButton.swift; sourceTree = "<group>"; };
 		65A370D8297E594500E1D851 /* Mountain-UI-Companion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Mountain-UI-Companion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A370DB297E594500E1D851 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65A370DD297E594500E1D851 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,6 +141,8 @@
 				65A370DD297E594500E1D851 /* SceneDelegate.swift */,
 				65A370DF297E594500E1D851 /* ViewController.swift */,
 				65A370E1297E594500E1D851 /* Main.storyboard */,
+				654DEAE72983933C001565A3 /* LoginViewController.swift */,
+				654DEAE9298394E0001565A3 /* SignInWithAppleButton.swift */,
 				65A370E4297E594600E1D851 /* Assets.xcassets */,
 				65A370E6297E594600E1D851 /* LaunchScreen.storyboard */,
 				65A370E9297E594600E1D851 /* Info.plist */,
@@ -258,10 +264,12 @@
 				654DEABF297F5E8C001565A3 /* Extension.swift in Sources */,
 				654DEADC2981EE2A001565A3 /* SettingTableViewCell.swift in Sources */,
 				654DEAE029820806001565A3 /* Profile.swift in Sources */,
+				654DEAE82983933C001565A3 /* LoginViewController.swift in Sources */,
 				65A370F3297E5DCD00E1D851 /* Setting.swift in Sources */,
 				65A370E0297E594500E1D851 /* ViewController.swift in Sources */,
 				65AF9FF6297F355500DC59C3 /* LogBookViewController.swift in Sources */,
 				654DEAE429824134001565A3 /* SessionTableViewCell.swift in Sources */,
+				654DEAEA298394E0001565A3 /* SignInWithAppleButton.swift in Sources */,
 				65A370DC297E594500E1D851 /* AppDelegate.swift in Sources */,
 				654DEADE2981F8C9001565A3 /* ProfileTableViewCell.swift in Sources */,
 				65A370F0297E5D1200E1D851 /* AccountViewController.swift in Sources */,

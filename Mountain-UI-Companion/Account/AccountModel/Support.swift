@@ -13,8 +13,13 @@ struct Support{
     var link: String
 }
 
-let supportOptions: [Support] = [
-    .init(setting: .init(name: "Follow me on GitHub", iconImage: UIImage(named: "githubIcon"), backgroundColor: .black), link: Constants.github),
-    .init(setting: .init(name: "Follow me on Twitter", iconImage: UIImage(named: "twitterIcon"), backgroundColor: .twitterBlue), link: Constants.twitter),
-    .init(setting: .init(name: "Buy me coffee", iconImage: UIImage(named: "buyMeCoffeeIcon"), backgroundColor: .buyMeCoffeeYellow), link: Constants.buyMeCoffee)
-]
+#if DEBUG
+
+extension Support {
+ static let sampleSupportOptions: [Support] = [
+        .init(setting: .init(name: "Follow me on GitHub", iconImage: UIImage(named: "githubIcon"), backgroundColor: .black), link: Constants.github),
+        .init(setting: .init(name: "Follow me on Twitter", iconImage: UIImage(named: "twitterIcon"), backgroundColor: .twitterBlue), link: Constants.twitter),
+        .init(setting: .init(name: "Buy me coffee", iconImage: UIImage(named: "buyMeCoffeeIcon"), backgroundColor: .buyMeCoffeeYellow), link: Constants.buyMeCoffee)
+    ]
+}
+#endif

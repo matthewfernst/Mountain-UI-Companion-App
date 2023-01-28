@@ -36,5 +36,8 @@ struct Profile {
     }
 }
 
-
-let exampleProfile = Profile(userName: "Matthew Ernst", email: "matthew.f.ernst@gmail.com")
+#if DEBUG
+extension Profile {
+    static var sampleProfile = Profile(userName: "Matthew Ernst", email: "matthew.f.ernst@gmail.com")
+}
+#endif
