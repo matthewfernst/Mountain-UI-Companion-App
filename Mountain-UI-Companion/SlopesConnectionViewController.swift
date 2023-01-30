@@ -5,6 +5,7 @@
 //  Created by Matthew Ernst on 1/23/23.
 //
 
+import Amplify
 import UIKit
 import UniformTypeIdentifiers
 
@@ -177,19 +178,11 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
         }
     
     func uploadSlopesDataToAmplify(fileNameKey: String, url: URL) async throws {
-        let dataString = "My Data"
-        let fileNameKey = "myFile.txt"
         guard let filename = FileManager.default.urls(
             for: .documentDirectory,
             in: .userDomainMask
         ).first?.appendingPathComponent(fileNameKey)
         else { return }
-
-        try dataString.write(
-            to: filename,
-            atomically: true,
-            encoding: .utf8
-        )
 
         let uploadTask = Amplify.Storage.uploadFile(
             key: fileNameKey,
