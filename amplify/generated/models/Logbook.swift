@@ -2,30 +2,25 @@
 import Amplify
 import Foundation
 
-public struct User: Model {
+public struct Logbook: Model {
   public let id: String
-  public var name: String
-  public var logbook: List<Log>?
+  public var logs: List<Log>?
   public var createdAt: Temporal.DateTime?
   public var updatedAt: Temporal.DateTime?
   
   public init(id: String = UUID().uuidString,
-      name: String,
-      logbook: List<Log>? = []) {
+      logs: List<Log>? = []) {
     self.init(id: id,
-      name: name,
-      logbook: logbook,
+      logs: logs,
       createdAt: nil,
       updatedAt: nil)
   }
   internal init(id: String = UUID().uuidString,
-      name: String,
-      logbook: List<Log>? = [],
+      logs: List<Log>? = [],
       createdAt: Temporal.DateTime? = nil,
       updatedAt: Temporal.DateTime? = nil) {
       self.id = id
-      self.name = name
-      self.logbook = logbook
+      self.logs = logs
       self.createdAt = createdAt
       self.updatedAt = updatedAt
   }

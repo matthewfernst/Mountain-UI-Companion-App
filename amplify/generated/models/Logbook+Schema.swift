@@ -2,11 +2,11 @@
 import Amplify
 import Foundation
 
-extension Log {
+extension Logbook {
   // MARK: - CodingKeys 
    public enum CodingKeys: String, ModelKey {
     case id
-    case logbook
+    case logs
     case createdAt
     case updatedAt
   }
@@ -15,24 +15,24 @@ extension Log {
   //  MARK: - ModelSchema 
   
   public static let schema = defineSchema { model in
-    let log = Log.keys
+    let logbook = Logbook.keys
     
-    model.pluralName = "Logs"
+    model.pluralName = "Logbooks"
     
     model.attributes(
-      .primaryKey(fields: [log.id])
+      .primaryKey(fields: [logbook.id])
     )
     
     model.fields(
-      .field(log.id, is: .required, ofType: .string),
-      .belongsTo(log.logbook, is: .optional, ofType: Logbook.self, targetNames: ["logbookLogsId"]),
-      .field(log.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
-      .field(log.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
+      .field(logbook.id, is: .required, ofType: .string),
+      .hasMany(logbook.logs, is: .optional, ofType: Log.self, associatedWith: Log.keys.logbook),
+      .field(logbook.createdAt, is: .optional, isReadOnly: true, ofType: .dateTime),
+      .field(logbook.updatedAt, is: .optional, isReadOnly: true, ofType: .dateTime)
     )
     }
 }
 
-extension Log: ModelIdentifiable {
+extension Logbook: ModelIdentifiable {
   public typealias IdentifierFormat = ModelIdentifierFormat.Default
   public typealias IdentifierProtocol = DefaultModelIdentifier<Self>
 }
