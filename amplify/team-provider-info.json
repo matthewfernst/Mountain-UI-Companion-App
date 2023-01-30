@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mountainuiapp-dev-231153-authRole",
+      "UnauthRoleArn": "arn:aws:iam::170267588697:role/amplify-mountainuiapp-dev-231153-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::170267588697:role/amplify-mountainuiapp-dev-231153-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-mountainuiapp-dev-231153-deployment",
+      "UnauthRoleName": "amplify-mountainuiapp-dev-231153-unauthRole",
+      "StackName": "amplify-mountainuiapp-dev-231153",
+      "StackId": "arn:aws:cloudformation:us-west-2:170267588697:stack/amplify-mountainuiapp-dev-231153/0b878290-9edb-11ed-8f7c-06aa80c54769",
+      "AmplifyAppId": "d2d7psqpohflvx"
+    },
+    "categories": {
+      "auth": {
+        "mountainuiappaadd2984": {}
+      }
+    }
+  }
+}
