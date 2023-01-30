@@ -176,9 +176,33 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
             } ?? []
         }
     
-//    TODO: Figure out Amplify
     func uploadSlopesDataToAmplify(fileNameKey: String, url: URL) async throws {
-        print("NOT IMPLEMENTED")
+        let dataString = "My Data"
+        let fileNameKey = "myFile.txt"
+        guard let filename = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask
+        ).first?.appendingPathComponent(fileNameKey)
+        else { return }
+
+        try dataString.write(
+            to: filename,
+            atomically: true,
+            encoding: .utf8
+        )
+
+        let uploadTask = Amplify.Storage.uploadFile(
+            key: fileNameKey,
+            local: filename
+        )
+
+        Task {
+            for await progress in await uploadTask.progress {
+                print("Progress: \(progress)")
+            }
+        }
+        let data = try await uploadTask.value
+        print("Completed: \(data)")
     }
         
 //        TODO: Maybe not needed??
@@ -194,6 +218,4 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
 //                try? FileManager.default.removeItem(at: url)
 //            })
 //        }
-    
-        
-    }
+}
