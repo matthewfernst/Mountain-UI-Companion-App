@@ -46,8 +46,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2D0984553424C5DD1D11FBD8 /* User.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = User.swift; path = amplify/generated/models/User.swift; sourceTree = "<group>"; };
-		37A85DB1C2CD9D48EDDF7E3E /* Log+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = "Log+Schema.swift"; path = "amplify/generated/models/Log+Schema.swift"; sourceTree = "<group>"; };
+		2D0984553424C5DD1D11FBD8 /* User.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = User.swift; path = amplify/generated/models/User.swift; sourceTree = "<group>"; };
+		37A85DB1C2CD9D48EDDF7E3E /* Log+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "Log+Schema.swift"; path = "amplify/generated/models/Log+Schema.swift"; sourceTree = "<group>"; };
+		6540781F29875ADB00CFE259 /* Mountain-UI-Companion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Mountain-UI-Companion.entitlements"; sourceTree = "<group>"; };
 		654DEABE297F5E8C001565A3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlopesConnectionViewController.swift; sourceTree = "<group>"; };
 		654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeWithLoveFooterView.swift; sourceTree = "<group>"; };
@@ -74,11 +75,11 @@
 		65A370F6297E6B5800E1D851 /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
 		65A370F8297E6B6F00E1D851 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		65AF9FF5297F355500DC59C3 /* LogBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogBookViewController.swift; sourceTree = "<group>"; };
-		7203D07FFD115C9010727127 /* Log.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = Log.swift; path = amplify/generated/models/Log.swift; sourceTree = "<group>"; };
-		7AF9B23484E5B24E50779F28 /* User+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = "User+Schema.swift"; path = "amplify/generated/models/User+Schema.swift"; sourceTree = "<group>"; };
-		93488C876E17F19B28519E6B /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; lastKnownFileType = text.json; name = awsconfiguration.json; path = awsconfiguration.json; sourceTree = "<group>"; };
-		BC0DF0CAA48B2B483F47F2C0 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; lastKnownFileType = text.json; name = amplifyconfiguration.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
-		CD1526FC50C7FF3628695D0C /* AmplifyModels.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; lastKnownFileType = sourcecode.swift; name = AmplifyModels.swift; path = amplify/generated/models/AmplifyModels.swift; sourceTree = "<group>"; };
+		7203D07FFD115C9010727127 /* Log.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Log.swift; path = amplify/generated/models/Log.swift; sourceTree = "<group>"; };
+		7AF9B23484E5B24E50779F28 /* User+Schema.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = "User+Schema.swift"; path = "amplify/generated/models/User+Schema.swift"; sourceTree = "<group>"; };
+		93488C876E17F19B28519E6B /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = awsconfiguration.json; sourceTree = "<group>"; };
+		BC0DF0CAA48B2B483F47F2C0 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = text.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
+		CD1526FC50C7FF3628695D0C /* AmplifyModels.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = AmplifyModels.swift; path = amplify/generated/models/AmplifyModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +163,7 @@
 		65A370DA297E594500E1D851 /* Mountain-UI-Companion */ = {
 			isa = PBXGroup;
 			children = (
+				6540781F29875ADB00CFE259 /* Mountain-UI-Companion.entitlements */,
 				65A370FC297E6F5100E1D851 /* Config */,
 				65A370DB297E594500E1D851 /* AppDelegate.swift */,
 				65A370DD297E594500E1D851 /* SceneDelegate.swift */,
@@ -485,6 +487,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Mountain-UI-Companion/Mountain-UI-Companion.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T5V587BPQM;
@@ -517,6 +520,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Mountain-UI-Companion/Mountain-UI-Companion.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = T5V587BPQM;
