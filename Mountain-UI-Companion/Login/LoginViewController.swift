@@ -21,8 +21,6 @@ class LoginViewController: UIViewController {
         
         self.view.backgroundColor = .signBackgroundLavendar
         self.appLabel.clipsToBounds = true
-        self.appLabel.layer.cornerRadius = 10
-        self.appLabel.layer.borderWidth = 1.5
         self.appLabel.layer.borderColor = UIColor.black.cgColor
         self.learnMoreButton.addTarget(self, action: #selector(showMountainUIDisplayPage), for: .touchUpInside)
         
@@ -32,7 +30,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        preformExistingAccountSetupFlows()
+//        performExistingAccountSetupFlows()
     }
     
     @objc func showMountainUIDisplayPage() {
@@ -57,7 +55,7 @@ class LoginViewController: UIViewController {
         NSLayoutConstraint.activate([
             signInWithAppleButton.centerXAnchor.constraint(equalTo: self.view.layoutMarginsGuide.centerXAnchor),
             signInWithAppleButton.centerYAnchor.constraint(equalTo: self.appLabel.bottomAnchor, constant: 50),
-            signInWithAppleButton.widthAnchor.constraint(equalToConstant: 162),
+            signInWithAppleButton.widthAnchor.constraint(equalToConstant: 250),
             signInWithAppleButton.heightAnchor.constraint(equalToConstant: 37)
         ])
     }
@@ -74,10 +72,13 @@ class LoginViewController: UIViewController {
         controller.performRequests()
     }
     
-    func preformExistingAccountSetupFlows() {
+    func performExistingAccountSetupFlows() {
         // Prepare the request for both Apple ID and password providers.
         let requests = [ASAuthorizationAppleIDProvider().createRequest(),
-                        ASAuthorizationPasswordProvider().createRequest()]
+                        // Need to store password for this to work
+                        // https://developer.apple.com/forums/thread/131624
+//                        ASAuthorizationPasswordProvider().createRequest()
+        ]
         
         // Create an authorization controller with given requests.
         let controller = ASAuthorizationController(authorizationRequests: requests)
@@ -90,7 +91,8 @@ class LoginViewController: UIViewController {
     
     // MARK: Google Sign In
     func setupSignInWithGoogleButton() {
-        let signInWithGoogleButton = GIDSignInButton()
+        let signInWithGoogleButton = getSignInWithGoogleButton()
+        
         signInWithGoogleButton.addTarget(self, action: #selector(handleAuthorizationGoogleButtonPress), for: .touchUpInside)
         self.view.addSubview(signInWithGoogleButton)
         
@@ -99,7 +101,7 @@ class LoginViewController: UIViewController {
         NSLayoutConstraint.activate([
             signInWithGoogleButton.centerXAnchor.constraint(equalTo: self.view.layoutMarginsGuide.centerXAnchor),
             signInWithGoogleButton.centerYAnchor.constraint(equalTo: self.appLabel.bottomAnchor, constant: 95),
-            signInWithGoogleButton.widthAnchor.constraint(equalToConstant: 165),
+            signInWithGoogleButton.widthAnchor.constraint(equalToConstant: 250),
             signInWithGoogleButton.heightAnchor.constraint(equalToConstant: 37)
         ])
     }
@@ -141,6 +143,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         case let passwordCredential as ASPasswordCredential:
             // Sign in using exisiting iCloud Keychain credential.
             // For the purpose of this demo app, show alert
+            goToMainApp()
             break
         default:
             Swift.debugPrint("Not ready yet")
@@ -149,6 +152,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         // Handle error
+        print(error.localizedDescription)
     }
 }
 
