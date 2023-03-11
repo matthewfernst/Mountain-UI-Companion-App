@@ -100,7 +100,7 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
                 Swift.debugPrint("chosen file: \(file.lastPathComponent)")
                 Task {
                     do {
-                         try await uploadSlopesDataToAmplify(fileNameKey: file.lastPathComponent, url: file)
+                         try await uploadSlopesDataToDynamoDB(fileNameKey: file.lastPathComponent, url: file)
                     } catch {
                         print(error)
                     }
@@ -176,8 +176,8 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
             } ?? []
         }
     
-//    TODO: Figure out Amplify
-    func uploadSlopesDataToAmplify(fileNameKey: String, url: URL) async throws {
+//    TODO: Figure out DynamoDB
+    func uploadSlopesDataToDynamoDB(fileNameKey: String, url: URL) async throws {
         print("NOT IMPLEMENTED")
     }
         

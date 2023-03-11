@@ -7,24 +7,10 @@
 
 import UIKit
 
-import Amplify
-import AWSAPIPlugin
-import AWSCognitoAuthPlugin
-import AWSS3StoragePlugin
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        do {
-            try Amplify.add(plugin: AWSCognitoAuthPlugin())
-            try Amplify.add(plugin: AWSAPIPlugin(modelRegistration: AmplifyModels()))
-            try Amplify.add(plugin: AWSS3StoragePlugin())
-            try Amplify.configure()
-            Swift.debugPrint("Amplify configured with auth plugin")
-        } catch {
-            Swift.debugPrint("Failed to initialize Amplify with \(error)")
-        }
         return true
     }
     
