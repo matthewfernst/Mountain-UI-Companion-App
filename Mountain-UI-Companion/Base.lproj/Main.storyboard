@@ -25,13 +25,12 @@
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mountain-UI Companion App" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="30o-R3-J92">
                                 <rect key="frame" x="16" y="617.66666666666663" width="361" height="30"/>
-                                <color key="backgroundColor" red="0.64332395789999997" green="0.74113994839999997" blue="0.73333495859999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
-                                <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What is the Mountain-UI?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Yd-qr-1yf">
-                                <rect key="frame" x="95" y="804.66666666666663" width="133.33333333333337" height="13.333333333333371"/>
+                                <rect key="frame" x="95.000000000000014" y="804.66666666666663" width="133.33333333333337" height="13.333333333333371"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13.333333333333371" id="mLi-oi-apH"/>
                                 </constraints>
