@@ -180,7 +180,16 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
     func uploadSlopesDataToDynamoDB(fileNameKey: String, url: URL) async throws {
         print("NOT IMPLEMENTED")
     }
-        
+      
+//    public func createFile(bucket: String, key: String, withData data: Data) async throws {
+//        let dataStream = ByteStream.from(data: data)
+//        let input = PutObjectInput(
+//            body: dataStream,
+//            bucket: bucket,
+//            key: key
+//        )
+//        _ = try await client.putObject(input: input)
+//    }
 //        TODO: Maybe not needed??
 //        func removeBookmark(at offsets: IndexSet) {
 //            let uuids = offsets.map( { bookmarks[$0].uuid } )

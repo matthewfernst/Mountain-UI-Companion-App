@@ -30,6 +30,11 @@ class AccountViewController: UITableViewController {
         self.title = "Account"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
+        if let email = UserDefaults.standard.string(forKey: "userEmail") {
+            // make DDB call
+            // make Profile
+        }
+        
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.identifier)
         tableView.register(MadeWithLoveFooterView.self, forHeaderFooterViewReuseIdentifier: MadeWithLoveFooterView.identifier)
