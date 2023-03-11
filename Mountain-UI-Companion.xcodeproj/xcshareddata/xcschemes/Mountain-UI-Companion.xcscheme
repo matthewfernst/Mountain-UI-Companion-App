@@ -50,6 +50,23 @@
             ReferencedContainer = "container:Mountain-UI-Companion.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "AWS_ACCESS_KEY_ID"
+            value = "AKIASPJF5HBM2ZNGIWUT"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "AWS_SECRET_ACCESS_KEY"
+            value = "41Ze6togzRc5cFnsM+f5Ix/kgybMwa+l1sS6jKoY"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "AWS_REGION"
+            value = "us-west-2"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
