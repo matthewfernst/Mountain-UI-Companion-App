@@ -41,6 +41,9 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: mountain-ui-app-slopes-unzipped
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - BucketKeyEnabled: true
         OwnershipControls:
           Rules:
             - ObjectOwnership: BucketOwnerEnforced
