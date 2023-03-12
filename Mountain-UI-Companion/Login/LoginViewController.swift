@@ -6,7 +6,6 @@
 //
 import AuthenticationServices
 import AWSClientRuntime
-import AWSS3
 import AWSDynamoDB
 import ClientRuntime
 import GoogleSignIn
@@ -15,8 +14,7 @@ import UIKit
 class LoginViewController: UIViewController {
     let usersTable = "mountain-ui-app-users"
     
-    let s3Client: S3Client = try! S3Client(region: "us-west-2")
-    let dynamoDbClient: DynamoDBClient = try! DynamoDBClient(region: "us-west-2")
+    let dynamoDbClient = try! DynamoDBClient(region: "us-west-2")
     
     @IBOutlet var appLabel: UILabel!
     @IBOutlet var learnMoreButton: UIButton!
