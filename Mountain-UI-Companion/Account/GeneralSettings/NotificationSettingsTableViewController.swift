@@ -26,14 +26,17 @@ class NotificationSettingsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationCell", for: indexPath)
+        var configuration = cell.defaultContentConfiguration()
         
-        cell.textLabel?.text = "Allow Notifications"
+        configuration.text = "Allow Notifications"
         
         let notificationSwitch = UISwitch()
         notificationSwitch.sizeToFit()
         
         cell.accessoryView = notificationSwitch
         cell.backgroundColor = .secondarySystemBackground
+        cell.contentConfiguration = configuration
+        
         return cell
     }
 

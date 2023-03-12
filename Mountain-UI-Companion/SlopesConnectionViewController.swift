@@ -18,7 +18,7 @@ extension UTType {
 }
 
 class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate {
-    let bucketName = "mountain-ui-app-slopes-data-zipped"
+    let bucketName = "mountain-ui-app-slopes-zipped"
     let s3Client = try! S3Client(region: "us-west-2")
     
     @IBOutlet var explanationTitleLabel: UILabel!
