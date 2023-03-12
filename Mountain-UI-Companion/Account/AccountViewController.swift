@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AWSDynamoDB
+import ClientRuntime
 
 enum AllSettingsSections: Int, CaseIterable {
     case profile = 0
@@ -22,7 +24,7 @@ class AccountViewController: UITableViewController {
     
     private var generalSettings = Setting.sampleSettingOptions
     private var supportSettings = Support.sampleSupportOptions
-    private var profile = Profile.sampleProfile
+    private var profile = LoginViewController.userProfile!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,18 +32,12 @@ class AccountViewController: UITableViewController {
         self.title = "Account"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        if let email = UserDefaults.standard.string(forKey: "email"),
-           let profilePicture = UserDefaults.standard.url(forKey: "profilePicture") {
-            // make DDB call
-            // make Profile
-            profile = Profile(userName: "Matthew Perich", email: email)
-        }
-        
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.identifier)
         tableView.register(MadeWithLoveFooterView.self, forHeaderFooterViewReuseIdentifier: MadeWithLoveFooterView.identifier)
     }
     
+    // MARK: UITableViewController
     override func numberOfSections(in tableView: UITableView) -> Int {
         return AllSettingsSections.allCases.count
     }
