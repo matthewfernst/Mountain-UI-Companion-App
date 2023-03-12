@@ -61,8 +61,10 @@ class ProfileTableViewCell: UITableViewCell {
     
     public func configure(with profile: Profile) {
         profileImageContainer.backgroundColor = .systemBackground
-        profileImageView.image = profile.profilePicture ?? profile.defaultProfilePictures[DefaultProfilePictureIndex.accountSettings.rawValue]
-        usersNameLabel.text = profile.userName
+        
+        profileImageView.image = profile.profilePicture ?? profile.defaultAccountSettingsProfilePicture
+        
+        usersNameLabel.text = profile.name
         editProfileAndAccountLabel.text = "Edit Account & Profile"
         self.backgroundColor = .secondarySystemBackground
         
@@ -74,9 +76,10 @@ class ProfileTableViewCell: UITableViewCell {
         profileImageContainer.frame = CGRect(x: 10, y: 6, width: size, height: size)
         profileImageContainer.layer.cornerRadius = profileImageContainer.frame.size.width / 2.0
         
-        let imageSize = size / 1.5
+        let imageSize = size
         profileImageView.frame = CGRect(x: (size - imageSize) / 2, y: (size - imageSize) / 2, width: imageSize, height: imageSize)
         profileImageView.center = profileImageContainer.center
+        profileImageView.makeRounded()
         
         usersNameLabel.frame = CGRect(x: contentView.center.x - 60,
                                       y: contentView.center.y - 55,

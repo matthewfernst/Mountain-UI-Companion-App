@@ -13,31 +13,39 @@ enum DefaultProfilePictureIndex: Int, CaseIterable {
     case logBook = 1
 }
 
-struct Profile {
-    var userName: String
+class Profile {
+    var name: String
     var email: String
     var profilePicture: UIImage?
-    var defaultProfilePictures = [UIImage?]()
+    var defaultLogbookProfilePicture: UIImage!
+    var defaultAccountSettingsProfilePicture: UIImage!
     // TODO: Season Stats in different place?
     // var seasonSummary = [SessionSummary?]()
     // var mostRecentSessionSummary = [SessionSummary?]()
     
-    init(userName: String, email: String, profilePicture: UIImage? = nil) {
-        self.userName = userName
+    init(name: String, email: String, profilePictureURL: URL? = nil) {
+        self.name = name
         self.email = email
-        if let profilePicture = profilePicture {
-            self.profilePicture = profilePicture
-        }
-        
-        self.defaultProfilePictures.append(userName.initials.image(move: .zero)?.withTintColor(.label))
-        self.defaultProfilePictures.append(userName.initials.image(withAttributes: [
+        self.defaultLogbookProfilePicture = name.initials.image(move: .zero)?.withTintColor(.label)
+        self.defaultAccountSettingsProfilePicture = name.initials.image(withAttributes: [
             .font: UIFont.systemFont(ofSize: 45, weight: .medium),
-        ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))?.withTintColor(.label))
+        ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))?.withTintColor(.label)
+        if let profilePictureURL = profilePictureURL {
+            DispatchQueue.global().async { [weak self] in
+                if let data = try? Data(contentsOf: profilePictureURL) {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.profilePicture = UIImage(data: data)
+                    }
+                }
+            }
+        }
+
     }
 }
 
+
 #if DEBUG
 extension Profile {
-    static var sampleProfile = Profile(userName: "Matthew Ernst", email: "matthew.f.ernst@gmail.com")
+    static var sampleProfile = Profile(name: "John Appleseed", email: "johnappleseed@icloud.com")
 }
 #endif

@@ -22,7 +22,7 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var allLifetimeStateButton: UIButton!
     @IBOutlet var sessionSummaryTableView: UITableView!
     
-    var profile = Profile.sampleProfile
+    var profile = LoginViewController.userProfile!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,11 +37,10 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
         sessionSummaryTableView.register(SessionTableViewCell.self, forCellReuseIdentifier: SessionTableViewCell.identifier)
         sessionSummaryTableView.rowHeight = 66.0
         
-        let profileImage = profile.profilePicture ?? profile.defaultProfilePictures[DefaultProfilePictureIndex.logBook.rawValue]        
+        let profileImage = profile.profilePicture ?? profile.defaultLogbookProfilePicture
         profileImageView.image = profileImage
         profileImageView.backgroundColor = .secondarySystemBackground
-        profileImageView.layer.masksToBounds = true
-        profileImageView.layer.cornerRadius = 55
+        profileImageView.makeRounded()
     }
     
     @objc func explainMoreWithSlopes() {
