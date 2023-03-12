@@ -18,7 +18,7 @@ extension UTType {
 }
 
 class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate {
-    let bucketName = "mountain-ui-app-slopes-data"
+    let bucketName = "mountain-ui-app-slopes-data-zipped"
     let s3Client = try! S3Client(region: "us-west-2")
     
     @IBOutlet var explanationTitleLabel: UILabel!
@@ -45,7 +45,8 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
             
             connectSlopesButton.addTarget(self, action: #selector(selectSlopesFiles), for: .touchUpInside)
             
-        } else {
+        }
+        else {
             explanationTitleLabel.text = "You're All Set!"
             explanationTitleLabel.font = UIFont.boldSystemFont(ofSize: 28)
             explanationTextView.text = "You've already connected your Slopes data to this app. If we lose access, we will notify you. For now, keep on shredding."
@@ -180,7 +181,10 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
     }
     
     func uploadSlopesDataToS3(file: URL) async throws -> PutObjectOutputResponse {
-        let userEmail = UserDefaults.standard.string(forKey: "email")
+        enum ValidationError: Error {
+            case emptyName
+        }
+        guard let userEmail = UserDefaults.standard.string(forKey: "email") else { throw ValidationError.emptyName}
         let fileKey = "\(String(describing: userEmail))/\(file.lastPathComponent)"
         let fileData = try Data(contentsOf: file)
         return try await createFile(key: fileKey, data: fileData)
