@@ -22,8 +22,8 @@ class EditProfileTableViewController: UITableViewController {
     static var identifier = "EditProfileTableViewController"
     
     private var profile = LoginViewController.userProfile!
-    private let dynamoDBClient = Constants.dynamoDBClient
-    private let userTable = Constants.usersTable
+    private let dynamoDBClient = DynamoDBUtils.dynamoDBClient
+    private let userTable = DynamoDBUtils.usersTable
     
     override func viewDidLoad() {
         super.viewDidLoad()
