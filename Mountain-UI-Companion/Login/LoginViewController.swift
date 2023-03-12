@@ -29,7 +29,6 @@ class LoginViewController: UIViewController {
         self.learnMoreButton.addTarget(self, action: #selector(showMountainUIDisplayPage), for: .touchUpInside)
         
         setupProviderLoginView()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -114,12 +113,14 @@ class LoginViewController: UIViewController {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] signInResult, error in
             guard error == nil else { return }
             guard let profile = signInResult?.user.profile else { return }
+//            print("URL HERE: \(String(describing: profile.imageURL(withDimension: 320)))")
             Task {
                 if try await !self.userAlreadyExists(email: profile.email) {
                     try await self.createUser(name: profile.name, email: profile.email)
                 }
                 let defaults = UserDefaults.standard
                 defaults.set(profile.email, forKey: "email")
+                defaults.set(profile.imageURL(withDimension: 500)?.absoluteString, forKey: "profilePicture")
                 self.goToMainApp()
             }
         }

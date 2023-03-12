@@ -30,9 +30,11 @@ class AccountViewController: UITableViewController {
         self.title = "Account"
         self.navigationController?.navigationBar.prefersLargeTitles = true
         
-        if let email = UserDefaults.standard.string(forKey: "userEmail") {
+        if let email = UserDefaults.standard.string(forKey: "email"),
+           let profilePicture = UserDefaults.standard.url(forKey: "profilePicture") {
             // make DDB call
             // make Profile
+            profile = Profile(userName: "Matthew Perich", email: email)
         }
         
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
