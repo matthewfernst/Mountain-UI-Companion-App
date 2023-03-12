@@ -1,8 +1,13 @@
 service: mountain-ui-slopes-unzipper
 frameworkVersion: "3"
 
+custom:
+  stage: ${opt:stage, self:provider.stage}
+
 provider:
   name: aws
+  stage: dev
+  region: us-east-1
   runtime: nodejs18.x
   memorySize: 256
   iam:

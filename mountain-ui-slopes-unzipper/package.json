@@ -1,7 +1,11 @@
 {
     "main": "index.js",
+    "scripts": {
+        "deploy": "serverless deploy --stage production"
+    },
     "devDependencies": {
         "@types/node": "^11.13.0",
+        "serverless": "^3.28.1",
         "serverless-plugin-typescript": "^2.1.4",
         "typescript": "^4.9.5"
     },
