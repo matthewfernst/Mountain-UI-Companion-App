@@ -1,0 +1,43 @@
+service: mountain-ui-slopes-unzipper
+frameworkVersion: "3"
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+
+provider:
+  name: aws
+  stage: dev
+  region: us-east-1
+  runtime: nodejs18.x
+  memorySize: 256
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+          Resource:
+            - arn:aws:s3:::mountain-ui-app-slopes-zipped
+            - arn:aws:s3:::mountain-ui-app-slopes-zipped/*
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+          Resource:
+            - arn:aws:s3:::mountain-ui-app-slopes-unzipped
+            - arn:aws:s3:::mountain-ui-app-slopes-unzipped/*
+
+functions:
+  mountain-ui-unzipper:
+    handler: index.handler
+    events:
+      - s3: mountain-ui-app-slopes-zipped
+
+plugins:
+  - serverless-plugin-typescript
+
+resources:
+  Resources:
+    MountainUISlopesUnzippedBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: mountain-ui-app-slopes-unzipped
