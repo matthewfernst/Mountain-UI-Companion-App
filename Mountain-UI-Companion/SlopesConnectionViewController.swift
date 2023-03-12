@@ -5,6 +5,9 @@
 //  Created by Matthew Ernst on 1/23/23.
 //
 
+import AWSClientRuntime
+import AWSS3
+import ClientRuntime
 import UIKit
 import UniformTypeIdentifiers
 
@@ -15,6 +18,8 @@ extension UTType {
 }
 
 class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate {
+    let bucketName = "mountain-ui-app-slopes-data-zipped"
+    let s3Client = try! S3Client(region: "us-west-2")
     
     @IBOutlet var explanationTitleLabel: UILabel!
     @IBOutlet var explanationTextView: UITextView!
@@ -22,7 +27,7 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
     @IBOutlet var connectSlopesButton: UIButton!
     
     var documentPicker: UIDocumentPickerViewController!
-    var bookmarks = [(uuid: String, url: URL)]()
+    var bookmarks: [(uuid: String, url: URL)] = []
     
     private func getAppSandboxDirectory() -> URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -40,7 +45,8 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
             
             connectSlopesButton.addTarget(self, action: #selector(selectSlopesFiles), for: .touchUpInside)
             
-        } else {
+        }
+        else {
             explanationTitleLabel.text = "You're All Set!"
             explanationTitleLabel.font = UIFont.boldSystemFont(ofSize: 28)
             explanationTextView.text = "You've already connected your Slopes data to this app. If we lose access, we will notify you. For now, keep on shredding."
@@ -91,16 +97,14 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
             Swift.debugPrint("*** Unable to access the contents of \(url.path) ***\n")
             return
         }
-
+        
         for case let file as URL in fileList {
             print(file.pathExtension)
             if file.pathExtension == "slopes" {
-                
-                // TODO: Now upload to AWS instance.
                 Swift.debugPrint("chosen file: \(file.lastPathComponent)")
                 Task {
                     do {
-                         try await uploadSlopesDataToDynamoDB(fileNameKey: file.lastPathComponent, url: file)
+                        try await uploadSlopesDataToS3(file: file)
                     } catch {
                         print(error)
                     }
@@ -115,94 +119,99 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
             }
         }
     }
-        
-        func saveBookmark(for url: URL) {
-            do {
-                // Start accessing a security-scoped resource.
-                guard url.startAccessingSecurityScopedResource() else {
-                    // Handle the failure here.
-                    return
-                }
-                
-                if bookmarks.contains (where: { bookmark in
-                    bookmark.url == url
-                }) { return }
-                
-                // Make sure you release the security-scoped resource when you finish.
-                defer { url.stopAccessingSecurityScopedResource() }
-                
-                // Generate a UUID
-                let uuid = UUID().uuidString
-                
-                // Convert URL to bookmark
-                let bookmarkData = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
-                // Save the bookmark into a file (the name of the file is the UUID)
-                try bookmarkData.write(to: getAppSandboxDirectory().appendingPathComponent(uuid))
-                
-                // Add the URL and UUID to the urls
-                bookmarks.append((uuid, url))
-                self.viewDidLoad()
+    
+    func saveBookmark(for url: URL) {
+        do {
+            // Start accessing a security-scoped resource.
+            guard url.startAccessingSecurityScopedResource() else {
+                // Handle the failure here.
+                return
             }
-            catch {
-                // Handle the error here.
-                print("Error creating the bookmark: \(error.localizedDescription)")
-            }
+            
+            if bookmarks.contains (where: { bookmark in
+                bookmark.url == url
+            }) { return }
+            
+            // Make sure you release the security-scoped resource when you finish.
+            defer { url.stopAccessingSecurityScopedResource() }
+            
+            // Generate a UUID
+            let uuid = UUID().uuidString
+            
+            // Convert URL to bookmark
+            let bookmarkData = try url.bookmarkData(options: .minimalBookmark, includingResourceValuesForKeys: nil, relativeTo: nil)
+            // Save the bookmark into a file (the name of the file is the UUID)
+            try bookmarkData.write(to: getAppSandboxDirectory().appendingPathComponent(uuid))
+            
+            // Add the URL and UUID to the urls
+            bookmarks.append((uuid, url))
+            self.viewDidLoad()
         }
-        
-        func loadAllBookmarks() {
-            // Get all the bookmark files
-            let files = try? FileManager.default.contentsOfDirectory(at: getAppSandboxDirectory(), includingPropertiesForKeys: nil)
-            // Map over the bookmark files
-            self.bookmarks = files?.compactMap { file in
-                do {
-                    let bookmarkData = try Data(contentsOf: file)
-                    var isStale = false
-                    // Get the URL from each bookmark
-                    let url = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
-                    
-                    guard !isStale else {
-                        // Handle stale data here.
-                        return nil
-                    }
-                    
-                    // Return URL
-                    return (file.lastPathComponent, url)
-                }
-                catch let error {
-                    // Handle the error here.
-                    print(error)
+        catch {
+            // Handle the error here.
+            print("Error creating the bookmark: \(error.localizedDescription)")
+        }
+    }
+    
+    func loadAllBookmarks() {
+        // Get all the bookmark files
+        let files = try? FileManager.default.contentsOfDirectory(at: getAppSandboxDirectory(), includingPropertiesForKeys: nil)
+        // Map over the bookmark files
+        self.bookmarks = files?.compactMap { file in
+            do {
+                let bookmarkData = try Data(contentsOf: file)
+                var isStale = false
+                // Get the URL from each bookmark
+                let url = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
+                
+                guard !isStale else {
+                    // Handle stale data here.
                     return nil
                 }
-            } ?? []
+                
+                // Return URL
+                return (file.lastPathComponent, url)
+            }
+            catch let error {
+                // Handle the error here.
+                print(error)
+                return nil
+            }
+        } ?? []
+    }
+    
+    func uploadSlopesDataToS3(file: URL) async throws -> PutObjectOutputResponse {
+        enum ValidationError: Error {
+            case emptyName
         }
-    
-//    TODO: Figure out DynamoDB
-    func uploadSlopesDataToDynamoDB(fileNameKey: String, url: URL) async throws {
-        print("NOT IMPLEMENTED")
+        guard let userEmail = UserDefaults.standard.string(forKey: "email") else { throw ValidationError.emptyName}
+        let fileKey = "\(String(describing: userEmail))/\(file.lastPathComponent)"
+        let fileData = try Data(contentsOf: file)
+        return try await createFile(key: fileKey, data: fileData)
     }
-      
-//    public func createFile(bucket: String, key: String, withData data: Data) async throws {
-//        let dataStream = ByteStream.from(data: data)
-//        let input = PutObjectInput(
-//            body: dataStream,
-//            bucket: bucket,
-//            key: key
-//        )
-//        _ = try await client.putObject(input: input)
-//    }
-//        TODO: Maybe not needed??
-//        func removeBookmark(at offsets: IndexSet) {
-//            let uuids = offsets.map( { bookmarks[$0].uuid } )
-//
-//            // Remove bookmarks from urls array
-//            bookmarks.remove(atOffsets: offsets)
-//
-//            // Delete the bookmark file
-//            uuids.forEach({ uuid in
-//                let url = getAppSandboxDirectory().appendingPathComponent(uuid)
-//                try? FileManager.default.removeItem(at: url)
-//            })
-//        }
     
-        
+    func createFile(key: String, data: Data) async throws -> PutObjectOutputResponse {
+        let dataStream = ByteStream.from(data: data)
+        let input = PutObjectInput(
+            body: dataStream,
+            bucket: bucketName,
+            key: key
+        )
+        return try await s3Client.putObject(input: input)
     }
+    //        TODO: Maybe not needed??
+    //        func removeBookmark(at offsets: IndexSet) {
+    //            let uuids = offsets.map( { bookmarks[$0].uuid } )
+    //
+    //            // Remove bookmarks from urls array
+    //            bookmarks.remove(atOffsets: offsets)
+    //
+    //            // Delete the bookmark file
+    //            uuids.forEach({ uuid in
+    //                let url = getAppSandboxDirectory().appendingPathComponent(uuid)
+    //                try? FileManager.default.removeItem(at: url)
+    //            })
+    //        }
+    
+    
+}
