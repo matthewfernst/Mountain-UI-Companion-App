@@ -27,16 +27,16 @@ jobs:
         uses: actions/cache@v2
         id: cache
         with:
-          path: node_modules
+          path: mountain-ui-slopes-unzipper/node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
       - name: Install Node Modules
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm install --legacy-peer-deps
+        run: npm install --prefix mountain-ui-slopes-unzipper
 
       - name: Deploy
-        run: npm run deploy
+        run: npm run --prefix mountain-ui-slopes-unzipper deploy
         env:
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
