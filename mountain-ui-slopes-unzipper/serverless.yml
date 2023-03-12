@@ -41,3 +41,11 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: mountain-ui-app-slopes-unzipped
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: BucketOwnerEnforced
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
