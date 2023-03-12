@@ -76,10 +76,14 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
         switch SessionSection(rawValue: indexPath.section) {
         case .seasonSummary:
             let cell = tableView.dequeueReusableCell(withIdentifier: "SeasonSummaryCell", for: indexPath)
-            cell.textLabel?.text = "Season Summary"
-            cell.detailTextLabel?.text = "5 runs | 2 days | 4.3k FT"
-            cell.detailTextLabel?.textColor = .secondaryLabel
+            var configuration = cell.defaultContentConfiguration()
+            
+            configuration.text = "Season Summary"
+            configuration.secondaryText = "5 runs | 2 days | 4.3k FT"
+            configuration.secondaryTextProperties.color = .secondaryLabel
+        
             cell.backgroundColor = .secondarySystemBackground
+            
             return cell
             
         case .sessionSummary:

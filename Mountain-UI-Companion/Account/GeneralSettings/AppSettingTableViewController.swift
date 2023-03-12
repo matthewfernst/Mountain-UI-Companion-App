@@ -39,18 +39,21 @@ class AppSettingTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AppSettingCell", for: indexPath)
+        var configuration = cell.defaultContentConfiguration()
+        
         switch AppSettingSections(rawValue: indexPath.section) {
         case .units:
-            cell.textLabel?.text = "Units"
+            configuration.text = "Units"
             cell.accessoryView = getPopoverButtonForCell(actionTitles: ["Imperial", "Metric"])
             cell.accessoryView?.tintColor = .label
         case .theme:
-            cell.textLabel?.text = "Theme"
+            configuration.text = "Theme"
             cell.accessoryView = getPopoverButtonForCell(actionTitles: ["System", "Dark", "Light"])
             cell.accessoryView?.tintColor = .label
         default:
             return UITableViewCell()
         }
+        cell.contentConfiguration = configuration
         cell.backgroundColor = .secondarySystemBackground
         return cell
     }

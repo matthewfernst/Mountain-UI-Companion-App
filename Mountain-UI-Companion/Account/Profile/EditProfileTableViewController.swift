@@ -8,8 +8,9 @@
 import UIKit
 
 enum ProfileSections: Int, CaseIterable {
-    case editProfile = 0
-    case signOut = 1
+    case changeProfilePicture = 0
+    case changeName = 1
+    case signOut = 2
 }
 
 class EditProfileTableViewController: UITableViewController {
@@ -26,7 +27,9 @@ class EditProfileTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch ProfileSections(rawValue: section) {
-        case .editProfile:
+        case .changeProfilePicture:
+            return 1
+        case .changeName:
             return 1
         case .signOut:
             return 1
@@ -37,20 +40,24 @@ class EditProfileTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileCell", for: indexPath)
+        var configuation = cell.defaultContentConfiguration()
         
         switch ProfileSections(rawValue: indexPath.section) {
-        case .editProfile:
-            cell.textLabel?.text = "Edit Profile"
-            cell.textLabel?.textAlignment = .left
+        case .changeProfilePicture:
+            configuation.text = "Change Profile Picture"
+            cell.accessoryType = .disclosureIndicator
+        case .changeName:
+            configuation.text = "Change Name"
             cell.accessoryType = .disclosureIndicator
         case .signOut:
-            cell.textLabel?.text = "Sign Out"
-            cell.textLabel?.textAlignment = .center
-            cell.textLabel?.textColor = .red
+            configuation.text = "Sign Out"
+            configuation.textProperties.alignment = .center
+            configuation.textProperties.color = .red
         default:
             return cell
         }
         cell.backgroundColor = .secondarySystemBackground
+        cell.contentConfiguration = configuation
         return cell
         
     }
