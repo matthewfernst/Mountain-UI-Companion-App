@@ -1,0 +1,15 @@
+service: mountain-ui-slopes-unzipper
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  mountain-ui-unzipper:
+    handler: index.handler
+    events:
+      - s3: mountain-ui-app-slopes-zipped
+
+plugins:
+  - serverless-plugin-typescript
