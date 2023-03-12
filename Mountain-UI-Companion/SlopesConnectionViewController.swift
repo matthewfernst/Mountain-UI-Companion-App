@@ -18,8 +18,8 @@ extension UTType {
 }
 
 class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate {
-    let bucketName = "mountain-ui-app-slopes-data-zipped"
-    let s3Client = try! S3Client(region: "us-west-2")
+    let bucketName = "mountain-ui-app-slopes-zipped"
+    let s3Client = try! S3Client(region: "us-east-1")
     
     @IBOutlet var explanationTitleLabel: UILabel!
     @IBOutlet var explanationTextView: UITextView!
@@ -35,7 +35,7 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadAllBookmarks()
+        // loadAllBookmarks()
         
         if bookmarks.isEmpty {
             documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.folder], asCopy: false)

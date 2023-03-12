@@ -1,22 +1,32 @@
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3 } from "aws-sdk";
+import { ParseOne } from "unzipper";
 
 export async function handler(event, context) {
-    const client = new S3Client({ region: "us-west-2" });
+    const s3Client = new S3({ region: "us-east-1" });
 
-    for (let record of event.Records) {
-        const bucket = decodeURI(record.s3.bucket.name);
-        const fileName = decodeURI(record.s3.object.key);
+    for (const record of event.Records) {
+        const bucket = decodeURIComponent(record.s3.bucket.name);
+        const fileName = decodeURIComponent(record.s3.object.key)
+            .split("")
+            .map((letter) => (letter === "+" ? " " : letter))
+            .join("");
 
-        const command = new GetObjectCommand({ Bucket: bucket, Key: fileName });
-        const response = await client.send(command);
+        const fileStream = s3Client
+            .getObject({ Bucket: bucket, Key: fileName })
+            .createReadStream()
+            .pipe(ParseOne("Metadata.xml", { forceStream: true }));
 
-        console.log(response);
+        const targetBucket = "mountain-ui-app-slopes-unzipped";
+        const targetFile = `${fileName.split("/")[0]}/${fileName
+            .split("/")[1]
+            .split("-")[0]
+            .trim()}.xml`;
+        await s3Client
+            .upload({ Bucket: targetBucket, Key: targetFile, Body: fileStream })
+            .promise();
+
+        console.log(`File ${targetFile} uploaded to bucket ${targetBucket} successfully.`);
     }
-    return {
-        statusCode: 200,
-        body: JSON.stringify({
-            message: "Go Serverless v1.0! Your function executed successfully!",
-            input: event
-        })
-    };
+
+    return { statusCode: 200 };
 }
