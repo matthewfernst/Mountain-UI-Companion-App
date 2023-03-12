@@ -17,5 +17,5 @@ enum Constants {
     
     // AWS
     static let usersTable = "mountain-ui-app-users"
-    static let dynamoDbClient = try! DynamoDBClient(region: "us-west-2")
+    static let dynamoDBClient = try! DynamoDBClient(region: "us-west-2")
 }

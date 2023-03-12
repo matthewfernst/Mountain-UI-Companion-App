@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
     @IBOutlet var appLabel: UILabel!
     @IBOutlet var learnMoreButton: UIButton!
     
-    private let dynamoDbClient = Constants.dynamoDbClient
+    private let dynamoDbClient = Constants.dynamoDBClient
     private let usersTable = Constants.usersTable
     
     public static var userProfile: Profile!

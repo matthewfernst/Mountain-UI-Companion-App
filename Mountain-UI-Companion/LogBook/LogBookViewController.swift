@@ -46,11 +46,11 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
     @objc func explainMoreWithSlopes() {
         
         let message = """
-                      This data comes from the Slopes app and is a way to quickly see your data being used. For more detailed information, vist your Slopes app.
+                      This data comes from the Slopes app and is a way to quickly see your data being used.
+                      For more detailed information, vist your Slopes app.
                       """
         
         let ac = UIAlertController(title: "Information Taken From Slopes", message: message, preferredStyle: .actionSheet)
-        
         ac.addAction(UIAlertAction(title: "OK", style: .default))
         
         present(ac, animated: true)

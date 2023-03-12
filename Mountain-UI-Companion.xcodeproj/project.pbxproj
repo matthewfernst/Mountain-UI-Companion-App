@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		653A0E5F29BCFE8200C8F308 /* SignInWithGoogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653A0E5E29BCFE8200C8F308 /* SignInWithGoogleButton.swift */; };
+		65478ADD29BE6FB100861A63 /* EmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */; };
+		65478ADF29BE8B4400861A63 /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */; };
 		654DEABF297F5E8C001565A3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEABE297F5E8C001565A3 /* Extension.swift */; };
 		654DEAC3297F6720001565A3 /* SlopesConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */; };
 		654DEAC52980FAB5001565A3 /* MadeWithLoveFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */; };
@@ -40,6 +42,8 @@
 /* Begin PBXFileReference section */
 		653A0E5E29BCFE8200C8F308 /* SignInWithGoogleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithGoogleButton.swift; sourceTree = "<group>"; };
 		6540781F29875ADB00CFE259 /* Mountain-UI-Companion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Mountain-UI-Companion.entitlements"; sourceTree = "<group>"; };
+		65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTableViewCell.swift; sourceTree = "<group>"; };
+		65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		654DEABE297F5E8C001565A3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlopesConnectionViewController.swift; sourceTree = "<group>"; };
 		654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeWithLoveFooterView.swift; sourceTree = "<group>"; };
@@ -91,21 +95,13 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		654DEAC62981ABFB001565A3 /* AccountModel */ = {
-			isa = PBXGroup;
-			children = (
-				654DEADF29820806001565A3 /* Profile.swift */,
-				65A370F2297E5DCD00E1D851 /* Setting.swift */,
-				65A370F6297E6B5800E1D851 /* Support.swift */,
-			);
-			path = AccountModel;
-			sourceTree = "<group>";
-		};
 		654DEAD32981C1AC001565A3 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
 				654DEAD52981C1CD001565A3 /* ProfileModel */,
 				654DEAD12981BF6D001565A3 /* EditProfileTableViewController.swift */,
+				65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */,
+				65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -124,6 +120,7 @@
 		654DEAD52981C1CD001565A3 /* ProfileModel */ = {
 			isa = PBXGroup;
 			children = (
+				654DEADF29820806001565A3 /* Profile.swift */,
 			);
 			path = ProfileModel;
 			sourceTree = "<group>";
@@ -131,6 +128,8 @@
 		654DEAD62981C1D6001565A3 /* GeneralSettingsModel */ = {
 			isa = PBXGroup;
 			children = (
+				65A370F2297E5DCD00E1D851 /* Setting.swift */,
+				65A370F6297E6B5800E1D851 /* Support.swift */,
 			);
 			path = GeneralSettingsModel;
 			sourceTree = "<group>";
@@ -180,7 +179,6 @@
 				654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */,
 				654DEAD42981C1BA001565A3 /* GeneralSettings */,
 				654DEAD32981C1AC001565A3 /* Profile */,
-				654DEAC62981ABFB001565A3 /* AccountModel */,
 			);
 			path = Account;
 			sourceTree = "<group>";
@@ -285,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				654DEADA2981D8B0001565A3 /* NotificationSettingsTableViewController.swift in Sources */,
+				65478ADF29BE8B4400861A63 /* NameTableViewCell.swift in Sources */,
 				654DEAD82981CB3F001565A3 /* PopoverButtonTableViewCell.swift in Sources */,
 				654DEAD22981BF6D001565A3 /* EditProfileTableViewController.swift in Sources */,
 				654DEAC3297F6720001565A3 /* SlopesConnectionViewController.swift in Sources */,
@@ -293,6 +292,7 @@
 				654DEADC2981EE2A001565A3 /* SettingTableViewCell.swift in Sources */,
 				654DEAE029820806001565A3 /* Profile.swift in Sources */,
 				654DEAE82983933C001565A3 /* LoginViewController.swift in Sources */,
+				65478ADD29BE6FB100861A63 /* EmailTableViewCell.swift in Sources */,
 				65A370F3297E5DCD00E1D851 /* Setting.swift in Sources */,
 				65A370E0297E594500E1D851 /* ViewController.swift in Sources */,
 				653A0E5F29BCFE8200C8F308 /* SignInWithGoogleButton.swift in Sources */,
