@@ -108,7 +108,10 @@ class LoginViewController: UIViewController {
     @objc func handleAuthorizationGoogleButtonPress() {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] signInResult, error in
             guard error == nil else { return }
-            guard let profile = signInResult?.user.profile else { return }
+            guard let profile = signInResult?.user.profile else {
+                showErrorWithSignIn()
+                return
+            }
             
             Task {
                 await handleSignIn(userInfo: UserProfileInfo(name: profile.name,
@@ -153,6 +156,16 @@ class LoginViewController: UIViewController {
         }
     }
     
+    func showErrorWithSignIn() {
+        let message = """
+                      It looks like we weren't able to log you in. Please try again. If the issue continues, please contact the developers.
+                      """
+        let ac = UIAlertController(title: "Well, This is Awkward...", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(ac, animated: true)
+    }
+    
     @objc func goToMainApp() {
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabController") {
             vc.modalPresentationStyle = .fullScreen
@@ -194,20 +207,21 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIdCredential as ASAuthorizationAppleIDCredential:
             Task {
+                // TODO: This https://developer.apple.com/forums/thread/121496
                 guard let email = appleIdCredential.email else {
                     Logger.userInfo.debug("Apple Sign In: No email.")
-                    print("Apple Sign In: No email.")
+                    showErrorWithSignIn()
                     return
                 }
                 
                 guard let firstName = appleIdCredential.fullName?.givenName else {
                     Logger.userInfo.debug("Apple Sign In: No first name.")
-                    print("Apple Sign In: No first name.")
+                    showErrorWithSignIn()
                     return
                 }
                 guard let lastName = appleIdCredential.fullName?.familyName else {
                     Logger.userInfo.debug("Apple Sign In: No last name.")
-                    print("Apple Sign In: No last name.")
+                    showErrorWithSignIn()
                     return
                 }
                 let name = firstName + " " + lastName
