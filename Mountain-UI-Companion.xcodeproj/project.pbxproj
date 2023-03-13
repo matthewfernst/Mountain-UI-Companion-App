@@ -10,6 +10,7 @@
 		653A0E5F29BCFE8200C8F308 /* SignInWithGoogleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 653A0E5E29BCFE8200C8F308 /* SignInWithGoogleButton.swift */; };
 		65478ADD29BE6FB100861A63 /* EmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */; };
 		65478ADF29BE8B4400861A63 /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */; };
+		65478AE129BE972500861A63 /* DynamoDBUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478AE029BE972500861A63 /* DynamoDBUtils.swift */; };
 		654DEABF297F5E8C001565A3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEABE297F5E8C001565A3 /* Extension.swift */; };
 		654DEAC3297F6720001565A3 /* SlopesConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */; };
 		654DEAC52980FAB5001565A3 /* MadeWithLoveFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */; };
@@ -44,6 +45,7 @@
 		6540781F29875ADB00CFE259 /* Mountain-UI-Companion.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Mountain-UI-Companion.entitlements"; sourceTree = "<group>"; };
 		65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTableViewCell.swift; sourceTree = "<group>"; };
 		65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
+		65478AE029BE972500861A63 /* DynamoDBUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamoDBUtils.swift; sourceTree = "<group>"; };
 		654DEABE297F5E8C001565A3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlopesConnectionViewController.swift; sourceTree = "<group>"; };
 		654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeWithLoveFooterView.swift; sourceTree = "<group>"; };
@@ -154,18 +156,18 @@
 			isa = PBXGroup;
 			children = (
 				6540781F29875ADB00CFE259 /* Mountain-UI-Companion.entitlements */,
-				65A370FC297E6F5100E1D851 /* Config */,
 				65A370DB297E594500E1D851 /* AppDelegate.swift */,
 				65A370DD297E594500E1D851 /* SceneDelegate.swift */,
 				65A370DF297E594500E1D851 /* ViewController.swift */,
+				654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */,
 				65A370E1297E594500E1D851 /* Main.storyboard */,
+				65A370FC297E6F5100E1D851 /* Utils */,
 				653A0E5D29BCD20A00C8F308 /* Login */,
+				65AF9FF7297F355800DC59C3 /* LogBook */,
+				65A370F1297E5DBE00E1D851 /* Account */,
 				65A370E4297E594600E1D851 /* Assets.xcassets */,
 				65A370E6297E594600E1D851 /* LaunchScreen.storyboard */,
 				65A370E9297E594600E1D851 /* Info.plist */,
-				654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */,
-				65AF9FF7297F355800DC59C3 /* LogBook */,
-				65A370F1297E5DBE00E1D851 /* Account */,
 			);
 			path = "Mountain-UI-Companion";
 			sourceTree = "<group>";
@@ -183,13 +185,14 @@
 			path = Account;
 			sourceTree = "<group>";
 		};
-		65A370FC297E6F5100E1D851 /* Config */ = {
+		65A370FC297E6F5100E1D851 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				65478AE029BE972500861A63 /* DynamoDBUtils.swift */,
 				65A370F8297E6B6F00E1D851 /* Constants.swift */,
 				654DEABE297F5E8C001565A3 /* Extension.swift */,
 			);
-			path = Config;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		65AF9FF7297F355800DC59C3 /* LogBook */ = {
@@ -295,6 +298,7 @@
 				65478ADD29BE6FB100861A63 /* EmailTableViewCell.swift in Sources */,
 				65A370F3297E5DCD00E1D851 /* Setting.swift in Sources */,
 				65A370E0297E594500E1D851 /* ViewController.swift in Sources */,
+				65478AE129BE972500861A63 /* DynamoDBUtils.swift in Sources */,
 				653A0E5F29BCFE8200C8F308 /* SignInWithGoogleButton.swift in Sources */,
 				65AF9FF6297F355500DC59C3 /* LogBookViewController.swift in Sources */,
 				654DEAE429824134001565A3 /* SessionTableViewCell.swift in Sources */,

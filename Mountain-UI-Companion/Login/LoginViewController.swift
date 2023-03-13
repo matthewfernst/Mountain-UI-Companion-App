@@ -15,9 +15,6 @@ class LoginViewController: UIViewController {
     @IBOutlet var appLabel: UILabel!
     @IBOutlet var learnMoreButton: UIButton!
     
-    private let dynamoDbClient = Constants.dynamoDBClient
-    private let usersTable = Constants.usersTable
-    
     public static var userProfile: Profile!
     
     override func viewDidLoad() {
@@ -34,7 +31,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        performExistingAccountSetupFlows()
+        //        performExistingAccountSetupFlows()
     }
     
     @objc func showMountainUIDisplayPage() {
@@ -76,7 +73,7 @@ class LoginViewController: UIViewController {
         let requests = [ASAuthorizationAppleIDProvider().createRequest(),
                         // Need to store password for this to work
                         // https://developer.apple.com/forums/thread/131624
-//                        ASAuthorizationPasswordProvider().createRequest()
+                        //                        ASAuthorizationPasswordProvider().createRequest()
         ]
         
         // Create an authorization controller with given requests.
@@ -111,9 +108,9 @@ class LoginViewController: UIViewController {
             guard let profile = signInResult?.user.profile else { return }
             Task {
                 if try await !self.userAlreadyExists(email: profile.email) {
-                    try await self.createUser(name: profile.name,
-                                              email: profile.email,
-                                              profilePictureURL: profile.imageURL(withDimension: 320)!.absoluteString)
+                    await self.createUser(name: profile.name,
+                                          email: profile.email,
+                                          profilePictureURL: profile.imageURL(withDimension: 320)!.absoluteString)
                 }
                 let defaults = UserDefaults.standard
                 defaults.set(profile.email, forKey: "email")
@@ -136,34 +133,15 @@ class LoginViewController: UIViewController {
     }
     
     func userAlreadyExists(email: String) async throws -> Bool {
-        let keyToGet = ["email" : DynamoDBClientTypes.AttributeValue.s(email)]
-        let input = GetItemInput(key: keyToGet, tableName: usersTable)
-        let response: GetItemOutputResponse
-        do {
-            response = try await dynamoDbClient.getItem(input: input)
-        } catch {
-            print("ERROR: \(error.localizedDescription)")
-            throw error
-        }
-        if (response.item != nil) {
+        if let _ = await DynamoDBUtils.getDynamoDBItem(email: email) {
             return true
+        } else {
+            return false
         }
-        return false
     }
     
-    func createUser(name: String, email: String, profilePictureURL: String) async throws -> PutItemOutputResponse {
-        let itemValues = [
-            "name": DynamoDBClientTypes.AttributeValue.s(name),
-            "email": DynamoDBClientTypes.AttributeValue.s(email),
-            "profilePictureURL": DynamoDBClientTypes.AttributeValue.s(profilePictureURL)
-        ]
-        let input = PutItemInput(item: itemValues, tableName: usersTable)
-        do {
-            return try await dynamoDbClient.putItem(input: input)
-        } catch {
-            print("ERROR: \(error.localizedDescription)")
-            throw error
-        }
+    func createUser(name: String, email: String, profilePictureURL: String) async {
+        await DynamoDBUtils.putDynamoDBItem(name: name, email: email, profilePictureURL: profilePictureURL)
     }
 }
 
@@ -180,9 +158,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 let name = firstName + " " + lastName
                 
                 if try await !self.userAlreadyExists(email: email) {
-                    try await self.createUser(name: name,
-                                              email: email,
-                                              profilePictureURL: "")
+                    await self.createUser(name: name,
+                                          email: email,
+                                          profilePictureURL: "")
                     LoginViewController.userProfile = Profile(name: name, email: email)
                 }
                 let defaults = UserDefaults.standard
