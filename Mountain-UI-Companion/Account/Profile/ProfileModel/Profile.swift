@@ -29,24 +29,50 @@ class Profile {
     // var seasonSummary = [SessionSummary?]()
     // var mostRecentSessionSummary = [SessionSummary?]()
     
-    init(name: String, email: String, profilePictureURL: URL? = nil) {
+    init(name: String, email: String, profilePicture: UIImage? = nil) {
         self.name = name
         self.email = email
+        self.profilePicture = profilePicture
         self.defaultLogbookProfilePicture = name.initials.image(move: .zero)?.withTintColor(.label)
         self.defaultAccountSettingsProfilePicture = name.initials.image(withAttributes: [
             .font: UIFont.systemFont(ofSize: 45, weight: .medium),
         ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))?.withTintColor(.label)
-        if let profilePictureURL = profilePictureURL {
-            DispatchQueue.global().async { [weak self] in
-                if let data = try? Data(contentsOf: profilePictureURL) {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.profilePicture = UIImage(data: data)
-                    }
-                }
-            }
-        }
-
     }
+    
+//    static func createProfile(name: String, email: String, profilePictureURL: URL? = nil) -> Profile {
+//        guard let profilePictureURL = profilePictureURL else {
+//            return Profile(name: name, email: email)
+//        }
+//        if let imageData = try? Data(contentsOf: profilePictureURL) {
+//            let profilePicture = UIImage(data: imageData)
+//            return Profile(name: name, email: email, profilePicture: profilePicture)
+//        }
+//        return Profile(name: name, email: email)
+//    }
+    
+    static func createProfile(name: String, email: String, profilePictureURL: URL? = nil, completion: @escaping (Profile) -> Void) {
+        guard let profilePictureURL = profilePictureURL else {
+            completion(Profile(name: name, email: email))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: profilePictureURL) { (data, response, error) in
+            if let error = error {
+                print("Error downloading profile picture: \(error.localizedDescription)")
+                completion(Profile(name: name, email: email))
+                return
+            }
+            
+            guard let data = data, let profilePicture = UIImage(data: data) else {
+                completion(Profile(name: name, email: email))
+                return
+            }
+            
+            let profile = Profile(name: name, email: email, profilePicture: profilePicture)
+            completion(profile)
+        }.resume()
+    }
+
 }
 
 

@@ -63,7 +63,7 @@ class EditProfileTableViewController: UITableViewController {
     
     // TODO: Implement -> How to get data from text fields?
     @objc func saveNameAndEmailChanges()  {
-        let newProfilePicture = "https://lh3.googleusercontent.com/a/AGNmyxb5YYFbO5Yizb5Xk99j0FtSpvaWpTLPAQkIy-EdcJQ=s320"
+        let newProfilePictureURL = URL(string: "https://i.imgur.com/w5rkSIj.jpg")!
         
         let firstName = changedFirstName ?? profile.firstName
         let lastName = changedLastName ?? profile.lastName
@@ -74,13 +74,13 @@ class EditProfileTableViewController: UITableViewController {
         Task {
             await DynamoDBUtils.updateDynamoDBItem(email: email,
                                                    newName: newName,
-                                                   newProfilePictureURL: newProfilePicture)
+                                                   newProfilePictureURL: newProfilePictureURL.absoluteString)
         }
         
         // Update shared profile to update all other views
-        profileViewModel.updateProfile(newProfile: Profile(name: newName,
-                                                           email: email,
-                                                           profilePictureURL: URL(string: newProfilePicture)))
+        Profile.createProfile(name: newName, email: email, profilePictureURL: newProfilePictureURL) { [unowned self] newProfile in
+            self.profileViewModel.updateProfile(newProfile: newProfile)
+        }
         
         self.navigationController?.popViewController(animated: true)
         

@@ -117,17 +117,12 @@ class LoginViewController: UIViewController {
                 let defaults = UserDefaults.standard
                 defaults.set(profile.email, forKey: "email")
                 
-                let userProfile = Profile(name: profile.name,
-                                          email: profile.email,
-                                          profilePictureURL: profile.imageURL(withDimension: 320))
                 
-                
-                
-//                LoginViewController.userProfile = Profile(name: profile.name,
-//                                                          email: profile.email,
-//                                                          profilePictureURL: profile.imageURL(withDimension: 320))
-                
-                profileViewModel.updateProfile(newProfile: userProfile)
+                Profile.createProfile(name: profile.name,
+                                      email: profile.email,
+                                      profilePictureURL: profile.imageURL(withDimension: 320)!) { [unowned self] newProfile in
+                    self.profileViewModel.updateProfile(newProfile: newProfile)
+                }
                 
                 self.goToMainApp()
             }
@@ -167,7 +162,9 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     await self.createUser(name: name,
                                           email: email,
                                           profilePictureURL: "")
-                    profileViewModel.updateProfile(newProfile: Profile(name: name, email: email))
+                    Profile.createProfile(name: name, email: email) { [unowned self] newProfile in
+                        self.profileViewModel.updateProfile(newProfile: newProfile)
+                    }
                 }
                 let defaults = UserDefaults.standard
                 defaults.set(email, forKey: "email")
