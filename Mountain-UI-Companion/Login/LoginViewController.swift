@@ -10,12 +10,15 @@ import AWSDynamoDB
 import ClientRuntime
 import GoogleSignIn
 import UIKit
+import OSLog
 
 class LoginViewController: UIViewController {
     @IBOutlet var appLabel: UILabel!
     @IBOutlet var learnMoreButton: UIButton!
     
-    public static var userProfile: Profile!
+    //    public static var userProfile: Profile!
+    
+    var profileViewModel = ProfileViewModel.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,23 +108,62 @@ class LoginViewController: UIViewController {
     @objc func handleAuthorizationGoogleButtonPress() {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] signInResult, error in
             guard error == nil else { return }
-            guard let profile = signInResult?.user.profile else { return }
+            guard let profile = signInResult?.user.profile else {
+                showErrorWithSignIn()
+                return
+            }
+            
             Task {
-                if try await !self.userAlreadyExists(email: profile.email) {
-                    await self.createUser(name: profile.name,
-                                          email: profile.email,
-                                          profilePictureURL: profile.imageURL(withDimension: 320)!.absoluteString)
-                }
+                await handleSignIn(userInfo: UserProfileInfo(name: profile.name,
+                                                             email: profile.email,
+                                                             profilePictureURL: profile.imageURL(withDimension: 320)!))
+                // TODO: Change to ProfileViewModel
                 let defaults = UserDefaults.standard
                 defaults.set(profile.email, forKey: "email")
-                
-                LoginViewController.userProfile = Profile(name: profile.name,
-                                                          email: profile.email,
-                                                          profilePictureURL: profile.imageURL(withDimension: 320))
                 
                 self.goToMainApp()
             }
         }
+    }
+    
+    // MARK: Helper functions for Login
+    func setCurrentUser(userInfo: UserProfileInfo) {
+        Profile.createProfile(name: userInfo.name, email: userInfo.email, profilePictureURL: userInfo.profilePictureURL) { profile in
+            self.profileViewModel.updateProfile(newProfile: profile)
+        }
+    }
+    
+    func loginUser(userInfo: UserProfileInfo) {
+        Logger.userInfo.info("Existing user found.")
+        setCurrentUser(userInfo: userInfo)
+    }
+    
+    func createNewUser(userInfo: UserProfileInfo) async {
+        Logger.userInfo.info("User does not exist. Creating User.")
+        
+        setCurrentUser(userInfo: userInfo)
+        
+        await DynamoDBUtils.putDynamoDBItem(name: userInfo.name, email: userInfo.email, profilePictureURL: userInfo.profilePictureURL!.absoluteString)
+    }
+    
+    func handleSignIn(userInfo: UserProfileInfo) async {
+        if let userInfo = try? await self.getExistingUser(email: userInfo.email) {
+            loginUser(userInfo: userInfo)
+        } else {
+            await self.createNewUser(userInfo: UserProfileInfo(name: userInfo.name,
+                                                               email: userInfo.email,
+                                                               profilePictureURL: userInfo.profilePictureURL))
+        }
+    }
+    
+    func showErrorWithSignIn() {
+        let message = """
+                      It looks like we weren't able to log you in. Please try again. If the issue continues, please contact the developers.
+                      """
+        let ac = UIAlertController(title: "Well, This is Awkward...", message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(ac, animated: true)
     }
     
     @objc func goToMainApp() {
@@ -132,17 +174,31 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func userAlreadyExists(email: String) async throws -> Bool {
-        if let _ = await DynamoDBUtils.getDynamoDBItem(email: email) {
-            return true
-        } else {
-            return false
+    func getExistingUser(email: String) async throws -> UserProfileInfo? {
+        if let dynamoDBUserInfo = await DynamoDBUtils.getDynamoDBItem(email: email) {
+            var userInfo = UserProfileInfo(name: "", email: "", profilePictureURL: nil)
+            for (key, value) in dynamoDBUserInfo {
+                print(key)
+                if case let .s(value) = value {
+                    switch key {
+                    case "name":
+                        userInfo.name = value
+                    case "email":
+                        userInfo.email = value
+                    case "profilePictureURL":
+                        if let url = URL(string: value) {
+                            userInfo.profilePictureURL = url
+                        }
+                    default:
+                        break
+                    }
+                }
+            }
+            return userInfo
         }
+        return nil
     }
     
-    func createUser(name: String, email: String, profilePictureURL: String) async {
-        await DynamoDBUtils.putDynamoDBItem(name: name, email: email, profilePictureURL: profilePictureURL)
-    }
 }
 
 
@@ -151,24 +207,30 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIdCredential as ASAuthorizationAppleIDCredential:
             Task {
-                guard let email = appleIdCredential.email else { return }
-                
-                guard let firstName = appleIdCredential.fullName?.givenName else { return }
-                guard let lastName = appleIdCredential.fullName?.familyName else { return }
-                let name = firstName + " " + lastName
-                
-                if try await !self.userAlreadyExists(email: email) {
-                    await self.createUser(name: name,
-                                          email: email,
-                                          profilePictureURL: "")
-                    LoginViewController.userProfile = Profile(name: name, email: email)
+                // TODO: This https://developer.apple.com/forums/thread/121496
+                guard let email = appleIdCredential.email else {
+                    Logger.userInfo.debug("Apple Sign In: No email.")
+                    showErrorWithSignIn()
+                    return
                 }
-                let defaults = UserDefaults.standard
-                defaults.set(email, forKey: "email")
-                self.goToMainApp()
+                
+                guard let firstName = appleIdCredential.fullName?.givenName else {
+                    Logger.userInfo.debug("Apple Sign In: No first name.")
+                    showErrorWithSignIn()
+                    return
+                }
+                guard let lastName = appleIdCredential.fullName?.familyName else {
+                    Logger.userInfo.debug("Apple Sign In: No last name.")
+                    showErrorWithSignIn()
+                    return
+                }
+                let name = firstName + " " + lastName
+                    
+                await handleSignIn(userInfo: UserProfileInfo(name: name, email: email))
             }
             break
             
+        // TODO: Needed?
         case let passwordCredential as ASPasswordCredential:
             // Sign in using exisiting iCloud Keychain credential.
             // For the purpose of this demo app, show alert

@@ -21,20 +21,32 @@ enum GeneralSettinsSections: Int, CaseIterable {
 }
 
 class AccountViewController: UITableViewController {
+    private var profileViewModel = ProfileViewModel.shared
+    private var profile: Profile!
     
     private var generalSettings = Setting.sampleSettingOptions
     private var supportSettings = Support.sampleSupportOptions
-    private var profile = LoginViewController.userProfile!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        bindViewModel()
+        self.tableView.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Account"
         self.navigationController?.navigationBar.prefersLargeTitles = true
+                
+        bindViewModel()
         
         tableView.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
         tableView.register(ProfileTableViewCell.self, forCellReuseIdentifier: ProfileTableViewCell.identifier)
         tableView.register(MadeWithLoveFooterView.self, forHeaderFooterViewReuseIdentifier: MadeWithLoveFooterView.identifier)
+    }
+    
+    func bindViewModel() {
+        profile = profileViewModel.profile
     }
     
     // MARK: UITableViewController
@@ -128,7 +140,6 @@ class AccountViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         switch AllSettingsSections(rawValue: indexPath.section) {
         case .profile:
             if let profileVC = self.storyboard?.instantiateViewController(withIdentifier: EditProfileTableViewController.identifier) as? EditProfileTableViewController {

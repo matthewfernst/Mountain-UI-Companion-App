@@ -11,6 +11,7 @@
 		65478ADD29BE6FB100861A63 /* EmailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */; };
 		65478ADF29BE8B4400861A63 /* NameTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */; };
 		65478AE129BE972500861A63 /* DynamoDBUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478AE029BE972500861A63 /* DynamoDBUtils.swift */; };
+		65478AE729BEBB6500861A63 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65478AE629BEBB6500861A63 /* ProfileViewModel.swift */; };
 		654DEABF297F5E8C001565A3 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEABE297F5E8C001565A3 /* Extension.swift */; };
 		654DEAC3297F6720001565A3 /* SlopesConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */; };
 		654DEAC52980FAB5001565A3 /* MadeWithLoveFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */; };
@@ -46,6 +47,7 @@
 		65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailTableViewCell.swift; sourceTree = "<group>"; };
 		65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameTableViewCell.swift; sourceTree = "<group>"; };
 		65478AE029BE972500861A63 /* DynamoDBUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamoDBUtils.swift; sourceTree = "<group>"; };
+		65478AE629BEBB6500861A63 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		654DEABE297F5E8C001565A3 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlopesConnectionViewController.swift; sourceTree = "<group>"; };
 		654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MadeWithLoveFooterView.swift; sourceTree = "<group>"; };
@@ -97,13 +99,51 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
-		654DEAD32981C1AC001565A3 /* Profile */ = {
+		65478AE229BEBADB00861A63 /* ProfileViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				654DEAD52981C1CD001565A3 /* ProfileModel */,
+				65478AE629BEBB6500861A63 /* ProfileViewModel.swift */,
+			);
+			path = ProfileViewModel;
+			sourceTree = "<group>";
+		};
+		65478AE329BEBAE500861A63 /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
 				654DEAD12981BF6D001565A3 /* EditProfileTableViewController.swift */,
 				65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */,
 				65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */,
+			);
+			path = ProfileView;
+			sourceTree = "<group>";
+		};
+		65478AE429BEBB2000861A63 /* GeneralSettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				654DEAC92981B006001565A3 /* AppSettingTableViewController.swift */,
+				654DEAD92981D8B0001565A3 /* NotificationSettingsTableViewController.swift */,
+				654DEAD72981CB3F001565A3 /* PopoverButtonTableViewCell.swift */,
+			);
+			path = GeneralSettingsView;
+			sourceTree = "<group>";
+		};
+		65478AE529BEBB3700861A63 /* AccountView */ = {
+			isa = PBXGroup;
+			children = (
+				65A370EF297E5D1200E1D851 /* AccountViewController.swift */,
+				654DEADD2981F8C9001565A3 /* ProfileTableViewCell.swift */,
+				654DEADB2981EE2A001565A3 /* SettingTableViewCell.swift */,
+				654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */,
+			);
+			path = AccountView;
+			sourceTree = "<group>";
+		};
+		654DEAD32981C1AC001565A3 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				65478AE329BEBAE500861A63 /* ProfileView */,
+				65478AE229BEBADB00861A63 /* ProfileViewModel */,
+				654DEAD52981C1CD001565A3 /* ProfileModel */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -111,10 +151,8 @@
 		654DEAD42981C1BA001565A3 /* GeneralSettings */ = {
 			isa = PBXGroup;
 			children = (
+				65478AE429BEBB2000861A63 /* GeneralSettingsView */,
 				654DEAD62981C1D6001565A3 /* GeneralSettingsModel */,
-				654DEAC92981B006001565A3 /* AppSettingTableViewController.swift */,
-				654DEAD92981D8B0001565A3 /* NotificationSettingsTableViewController.swift */,
-				654DEAD72981CB3F001565A3 /* PopoverButtonTableViewCell.swift */,
 			);
 			path = GeneralSettings;
 			sourceTree = "<group>";
@@ -175,10 +213,7 @@
 		65A370F1297E5DBE00E1D851 /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				65A370EF297E5D1200E1D851 /* AccountViewController.swift */,
-				654DEADD2981F8C9001565A3 /* ProfileTableViewCell.swift */,
-				654DEADB2981EE2A001565A3 /* SettingTableViewCell.swift */,
-				654DEAC42980FAB5001565A3 /* MadeWithLoveFooterView.swift */,
+				65478AE529BEBB3700861A63 /* AccountView */,
 				654DEAD42981C1BA001565A3 /* GeneralSettings */,
 				654DEAD32981C1AC001565A3 /* Profile */,
 			);
@@ -299,6 +334,7 @@
 				65A370F3297E5DCD00E1D851 /* Setting.swift in Sources */,
 				65A370E0297E594500E1D851 /* ViewController.swift in Sources */,
 				65478AE129BE972500861A63 /* DynamoDBUtils.swift in Sources */,
+				65478AE729BEBB6500861A63 /* ProfileViewModel.swift in Sources */,
 				653A0E5F29BCFE8200C8F308 /* SignInWithGoogleButton.swift in Sources */,
 				65AF9FF6297F355500DC59C3 /* LogBookViewController.swift in Sources */,
 				654DEAE429824134001565A3 /* SessionTableViewCell.swift in Sources */,

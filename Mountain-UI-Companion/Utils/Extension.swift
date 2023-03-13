@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import OSLog
 
 extension UIImage {
     func scalePreservingAspectRatio(targetSize: CGSize) -> UIImage {
@@ -94,3 +95,12 @@ extension UIColor {
     }
 }
 
+extension Logger {
+    private static var subsystem = Bundle.main.bundleIdentifier!
+
+    /// Logs the view cycles like viewDidLoad.
+    static let viewCycle = Logger(subsystem: subsystem, category: "viewcycle")
+    
+    /// Logs information about users
+    static let userInfo = Logger(subsystem: subsystem, category: "info")
+}

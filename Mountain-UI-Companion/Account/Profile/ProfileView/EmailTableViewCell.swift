@@ -11,7 +11,7 @@ class EmailTableViewCell: UITableViewCell {
     
     static let identifier = "EmailTableViewCell"
     
-    private let emailLabel: UILabel = {
+     let emailLabel: UILabel = {
         let label = UILabel()
         label.text = "Email"
         label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
@@ -19,7 +19,7 @@ class EmailTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let emailTextField: UITextField = {
+    public let emailTextField: UITextField = {
         return UITextField()
     }()
     

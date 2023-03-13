@@ -22,13 +22,16 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var allLifetimeStateButton: UIButton!
     @IBOutlet var sessionSummaryTableView: UITableView!
     
-    var profile = LoginViewController.userProfile!
+    var profileViewModel = ProfileViewModel.shared
+    var profile: Profile!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "LogBook"
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        profile = profileViewModel.profile
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(explainMoreWithSlopes))
         
