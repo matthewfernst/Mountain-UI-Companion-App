@@ -15,6 +15,12 @@ enum DefaultProfilePictureIndex: Int, CaseIterable {
 
 class Profile {
     var name: String
+    var firstName: String {
+        name.components(separatedBy: " ")[0]
+    }
+    var lastName: String {
+        name.components(separatedBy: " ")[1]
+    }
     var email: String
     var profilePicture: UIImage?
     var defaultLogbookProfilePicture: UIImage!

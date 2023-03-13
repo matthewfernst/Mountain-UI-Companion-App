@@ -21,15 +21,22 @@ class EditProfileTableViewController: UITableViewController {
     
     static var identifier = "EditProfileTableViewController"
     
-    private var profile = LoginViewController.userProfile!
+    private var profileViewModel = ProfileViewModel.shared
+    private var profile: Profile!
+    
     private let dynamoDBClient = DynamoDBUtils.dynamoDBClient
     private let userTable = DynamoDBUtils.usersTable
+    
+    private var changedFirstName: String? = nil
+    private var changedLastName: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Edit Profile"
         self.navigationController?.navigationBar.prefersLargeTitles = false
+        
+        bindViewModel()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBackToSettings))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveNameAndEmailChanges))
@@ -38,19 +45,45 @@ class EditProfileTableViewController: UITableViewController {
         tableView.register(EmailTableViewCell.self, forCellReuseIdentifier: EmailTableViewCell.identifier)
     }
     
-    @objc func goBackToSettings() {
-        for controller in self.navigationController!.viewControllers as Array {
-            if controller.isKind(of: AccountViewController.self) {
-                self.navigationController!.popToViewController(controller, animated: true)
-                break
-            }
-        }
+    func handleFirstNameChange(newFirstName: String) {
+        changedFirstName = newFirstName
     }
-    // TODO: Implement
-    @objc func saveNameAndEmailChanges() {
-        // check which changed
+    
+    func handleLastNameChange(newLastName: String) {
+        changedLastName = newLastName
+    }
+    
+    func bindViewModel() {
+        profile = profileViewModel.profile
+    }
+    
+    @objc func goBackToSettings() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    // TODO: Implement -> How to get data from text fields?
+    @objc func saveNameAndEmailChanges()  {
+        let newProfilePicture = "https://lh3.googleusercontent.com/a/AGNmyxb5YYFbO5Yizb5Xk99j0FtSpvaWpTLPAQkIy-EdcJQ=s320"
         
-        // Save in DynamoDB
+        let firstName = changedFirstName ?? profile.firstName
+        let lastName = changedLastName ?? profile.lastName
+        let email = "matthew.f.ernst@gmail.com"
+        
+        let newName = firstName + " " + lastName
+        // Update Dynamo
+        Task {
+            await DynamoDBUtils.updateDynamoDBItem(email: email,
+                                                   newName: newName,
+                                                   newProfilePictureURL: newProfilePicture)
+        }
+        
+        // Update shared profile to update all other views
+        profileViewModel.updateProfile(newProfile: Profile(name: newName,
+                                                           email: email,
+                                                           profilePictureURL: URL(string: newProfilePicture)))
+        
+        self.navigationController?.popViewController(animated: true)
+        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -77,14 +110,13 @@ class EditProfileTableViewController: UITableViewController {
                     return UITableViewCell()
                 }
                 
-                nameCell.configure(name: profile.name)
+                nameCell.configure(name: profile.name, delegate: self)
                 
                 return nameCell
                 
             case .email:
                 guard let emailCell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.identifier, for: indexPath) as? EmailTableViewCell else { return UITableViewCell()
                 }
-                
                 emailCell.configure(email: profile.email)
                 
                 return emailCell
@@ -110,4 +142,25 @@ class EditProfileTableViewController: UITableViewController {
         
     }
     
+}
+
+
+extension EditProfileTableViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        switch NameTextFieldTags(rawValue: textField.tag) {
+        case .firstName:
+            if let text = textField.text {
+                let newFirstName = (text as NSString).replacingCharacters(in: range, with: string)
+                self.handleFirstNameChange(newFirstName: newFirstName)
+            }
+        case .lastName:
+            if let text = textField.text {
+                let newLastName = (text as NSString).replacingCharacters(in: range, with: string)
+                self.handleLastNameChange(newLastName: newLastName)
+            }
+        default:
+            break
+        }
+        return true
+    }
 }

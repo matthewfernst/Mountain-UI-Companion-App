@@ -23,7 +23,7 @@ struct DynamoDBUtils {
         do {
             _ = try await dynamoDBClient.putItem(input: input)
         } catch {
-            print("ERROR: \(error.localizedDescription)")
+            print("ERROR: \(error)")
         }
     }
     
@@ -33,21 +33,22 @@ struct DynamoDBUtils {
         do {
             return try await dynamoDBClient.getItem(input: input).item
         } catch {
-            print("ERROR: \(error.localizedDescription)")
+            print("ERROR: \(error)")
         }
         return nil
     }
     
     static func updateDynamoDBItem(email: String,
-                                   name: String,
-                                   newValue: String) async {
+                                   newName: String,
+                                   newProfilePictureURL: String) async {
         let itemKey = ["email" : DynamoDBClientTypes.AttributeValue.s(email)]
-        let updatedValues = [name: DynamoDBClientTypes.AttributeValueUpdate(action: .put, value: DynamoDBClientTypes.AttributeValue.s(newValue))]
+        let updatedValues = ["name": DynamoDBClientTypes.AttributeValueUpdate(action: .put, value: DynamoDBClientTypes.AttributeValue.s(newName)),
+                             "profilePictureURL": DynamoDBClientTypes.AttributeValueUpdate(action: .put, value: DynamoDBClientTypes.AttributeValue.s(newProfilePictureURL))]
         do {
             let _ = try await dynamoDBClient.updateItem(input: UpdateItemInput(attributeUpdates: updatedValues, key: itemKey, tableName: usersTable))
             
         } catch {
-            print("ERROR: \(error.localizedDescription)")
+            print("ERROR: \(error)")
         }
     }
     
@@ -58,7 +59,7 @@ struct DynamoDBUtils {
             let _ = try await dynamoDBClient.deleteItem(input: DeleteItemInput(key: keyToDelete,
                                                                                tableName: usersTable))
         } catch {
-            print("ERROR: \(error.localizedDescription)")
+            print("ERROR: \(error)")
         }
         
     }

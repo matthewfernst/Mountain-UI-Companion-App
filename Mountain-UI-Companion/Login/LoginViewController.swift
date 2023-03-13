@@ -15,7 +15,9 @@ class LoginViewController: UIViewController {
     @IBOutlet var appLabel: UILabel!
     @IBOutlet var learnMoreButton: UIButton!
     
-    public static var userProfile: Profile!
+//    public static var userProfile: Profile!
+    
+    var profileViewModel = ProfileViewModel.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -115,9 +117,17 @@ class LoginViewController: UIViewController {
                 let defaults = UserDefaults.standard
                 defaults.set(profile.email, forKey: "email")
                 
-                LoginViewController.userProfile = Profile(name: profile.name,
-                                                          email: profile.email,
-                                                          profilePictureURL: profile.imageURL(withDimension: 320))
+                let userProfile = Profile(name: profile.name,
+                                          email: profile.email,
+                                          profilePictureURL: profile.imageURL(withDimension: 320))
+                
+                
+                
+//                LoginViewController.userProfile = Profile(name: profile.name,
+//                                                          email: profile.email,
+//                                                          profilePictureURL: profile.imageURL(withDimension: 320))
+                
+                profileViewModel.updateProfile(newProfile: userProfile)
                 
                 self.goToMainApp()
             }
@@ -133,11 +143,7 @@ class LoginViewController: UIViewController {
     }
     
     func userAlreadyExists(email: String) async throws -> Bool {
-        if let _ = await DynamoDBUtils.getDynamoDBItem(email: email) {
-            return true
-        } else {
-            return false
-        }
+        return await DynamoDBUtils.getDynamoDBItem(email: email) != nil
     }
     
     func createUser(name: String, email: String, profilePictureURL: String) async {
@@ -161,7 +167,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     await self.createUser(name: name,
                                           email: email,
                                           profilePictureURL: "")
-                    LoginViewController.userProfile = Profile(name: name, email: email)
+                    profileViewModel.updateProfile(newProfile: Profile(name: name, email: email))
                 }
                 let defaults = UserDefaults.standard
                 defaults.set(email, forKey: "email")

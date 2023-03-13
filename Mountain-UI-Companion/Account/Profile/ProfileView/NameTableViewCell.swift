@@ -7,9 +7,16 @@
 
 import UIKit
 
+enum NameTextFieldTags: Int, CaseIterable {
+    case firstName = 0
+    case lastName = 1
+}
+
 class NameTableViewCell: UITableViewCell {
 
     static let identifier = "NameTableViewCell"
+    
+    var delegate: EditProfileTableViewController?
     
     private let nameLabel: UILabel = {
         let label = UILabel()
@@ -19,12 +26,22 @@ class NameTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let firstNameTextField: UITextField = {
-        return UITextField()
+    let firstNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .words
+        textField.returnKeyType = .done
+        textField.tag = NameTextFieldTags.firstName.rawValue
+        return textField
     }()
     
-    private let lastNameTextField: UITextField = {
-        return UITextField()
+    let lastNameTextField: UITextField = {
+        let textField = UITextField()
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .words
+        textField.returnKeyType = .done
+        textField.tag = NameTextFieldTags.lastName.rawValue
+        return textField
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -38,10 +55,12 @@ class NameTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(name: String) {
+    public func configure(name: String, delegate: EditProfileTableViewController) {
         let fullName = name.components(separatedBy: " ")
         firstNameTextField.text = fullName[0]
         lastNameTextField.text = fullName[1]
+        
+        self.delegate = delegate
         
         self.backgroundColor = .secondarySystemBackground
         self.selectionStyle = .none
@@ -54,8 +73,10 @@ class NameTableViewCell: UITableViewCell {
         nameLabel.frame = CGRect(x: 20, y: 0, width: size + 3, height: size)
         
         firstNameTextField.frame = CGRect(x: nameLabel.frame.midX + 40, y: 0, width: size * 2, height: size)
+        firstNameTextField.delegate = delegate
         
         lastNameTextField.frame = CGRect(x: firstNameTextField.frame.midX + 60, y: 0, width: size * 2, height: size)
+        lastNameTextField.delegate = delegate
     }
     
     override func awakeFromNib() {
