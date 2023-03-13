@@ -62,7 +62,7 @@ class EditProfileTableViewController: UITableViewController {
     }
     
     @objc func saveNameAndEmailChanges()  {
-        // TODO: Add Profile Picture Change -> Image Picker needed.
+        #warning("TODO: Add Profile Picture Change -> Image Picker needed.")
         let newProfilePictureURL = URL(string: "https://i.imgur.com/w5rkSIj.jpg")!
         
         let firstName = changedFirstName ?? profile.firstName
@@ -72,13 +72,13 @@ class EditProfileTableViewController: UITableViewController {
         let newName = firstName + " " + lastName
         // Update Dynamo
         Task {
-            await DynamoDBUtils.updateDynamoDBItem(email: email,
+            await DynamoDBUtils.updateDynamoDBItem(uuid: self.profileViewModel.uuid,
                                                    newName: newName,
                                                    newProfilePictureURL: newProfilePictureURL.absoluteString)
         }
         
         // Update shared profile to update all other views
-        Profile.createProfile(name: newName, email: email, profilePictureURL: newProfilePictureURL) { [unowned self] newProfile in
+        Profile.createProfile(uuid: self.profileViewModel.uuid, name: newName, email: email, profilePictureURL: newProfilePictureURL) { [unowned self] newProfile in
             self.profileViewModel.updateProfile(newProfile: newProfile)
             DispatchQueue.main.async {
                 // Refresh the previous view controller
@@ -117,7 +117,6 @@ class EditProfileTableViewController: UITableViewController {
                 return nameCell
                 
             case .email:
-                // TODO: Change to disabled and give alert controller.
                 guard let emailCell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.identifier, for: indexPath) as? EmailTableViewCell else { return UITableViewCell()
                 }
                 emailCell.configure(email: profile.email)

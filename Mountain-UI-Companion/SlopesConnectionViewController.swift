@@ -199,7 +199,7 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
         )
         return try await s3Client.putObject(input: input)
     }
-    //        TODO: Maybe not needed??
+    #warning ("TODO maybe not need?")
     //        func removeBookmark(at offsets: IndexSet) {
     //            let uuids = offsets.map( { bookmarks[$0].uuid } )
     //

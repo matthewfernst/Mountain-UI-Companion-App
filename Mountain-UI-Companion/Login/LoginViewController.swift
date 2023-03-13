@@ -76,7 +76,7 @@ class LoginViewController: UIViewController {
         let requests = [ASAuthorizationAppleIDProvider().createRequest(),
                         // Need to store password for this to work
                         // https://developer.apple.com/forums/thread/131624
-                        //                        ASAuthorizationPasswordProvider().createRequest()
+                        ASAuthorizationPasswordProvider().createRequest()
         ]
         
         // Create an authorization controller with given requests.
@@ -107,17 +107,26 @@ class LoginViewController: UIViewController {
     
     @objc func handleAuthorizationGoogleButtonPress() {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] signInResult, error in
-            guard error == nil else { return }
+            guard error == nil else {
+                showErrorWithSignIn()
+                return
+            }
+            guard let uuid = signInResult?.user.userID else {
+                showErrorWithSignIn()
+                return
+            }
             guard let profile = signInResult?.user.profile else {
                 showErrorWithSignIn()
                 return
             }
             
             Task {
-                await handleSignIn(userInfo: UserProfileInfo(name: profile.name,
-                                                             email: profile.email,
-                                                             profilePictureURL: profile.imageURL(withDimension: 320)!))
-                // TODO: Change to ProfileViewModel
+                await handleSignIn(uuid: uuid,
+                                   name: profile.name,
+                                   email: profile.email,
+                                   profilePictureURL: profile.imageURL(withDimension: 320)!)
+                
+                #warning ("TODO change to ProfileViewModel")
                 let defaults = UserDefaults.standard
                 defaults.set(profile.email, forKey: "email")
                 
@@ -128,7 +137,10 @@ class LoginViewController: UIViewController {
     
     // MARK: Helper functions for Login
     func setCurrentUser(userInfo: UserProfileInfo) {
-        Profile.createProfile(name: userInfo.name, email: userInfo.email, profilePictureURL: userInfo.profilePictureURL) { profile in
+        Profile.createProfile(uuid: userInfo.uuid,
+                              name: userInfo.name,
+                              email: userInfo.email,
+                              profilePictureURL: userInfo.profilePictureURL) { profile in
             self.profileViewModel.updateProfile(newProfile: profile)
         }
     }
@@ -143,16 +155,20 @@ class LoginViewController: UIViewController {
         
         setCurrentUser(userInfo: userInfo)
         
-        await DynamoDBUtils.putDynamoDBItem(name: userInfo.name, email: userInfo.email, profilePictureURL: userInfo.profilePictureURL!.absoluteString)
+        await DynamoDBUtils.putDynamoDBItem(uuid: userInfo.uuid,
+                                            name: userInfo.name,
+                                            email: userInfo.email,
+                                            profilePictureURL: userInfo.profilePictureURL?.absoluteString ?? "")
     }
     
-    func handleSignIn(userInfo: UserProfileInfo) async {
-        if let userInfo = try? await self.getExistingUser(email: userInfo.email) {
+    func handleSignIn(uuid: String, name: String? = nil, email: String? = nil, profilePictureURL: URL? = nil) async {
+        if let userInfo = try? await self.getExistingUser(uuid: uuid) {
             loginUser(userInfo: userInfo)
-        } else {
-            await self.createNewUser(userInfo: UserProfileInfo(name: userInfo.name,
-                                                               email: userInfo.email,
-                                                               profilePictureURL: userInfo.profilePictureURL))
+        } else if let email = email, let name = name {
+            await self.createNewUser(userInfo: UserProfileInfo(uuid: uuid,
+                                                               name: name,
+                                                               email: email,
+                                                               profilePictureURL: profilePictureURL))
         }
     }
     
@@ -174,13 +190,15 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func getExistingUser(email: String) async throws -> UserProfileInfo? {
-        if let dynamoDBUserInfo = await DynamoDBUtils.getDynamoDBItem(email: email) {
-            var userInfo = UserProfileInfo(name: "", email: "", profilePictureURL: nil)
+    func getExistingUser(uuid: String) async throws -> UserProfileInfo? {
+        if let dynamoDBUserInfo = await DynamoDBUtils.getDynamoDBItem(uuid: uuid) {
+            var userInfo = UserProfileInfo(uuid: "", name: "", email: "", profilePictureURL: nil)
             for (key, value) in dynamoDBUserInfo {
                 print(key)
                 if case let .s(value) = value {
                     switch key {
+                    case "uuid":
+                        userInfo.uuid = value
                     case "name":
                         userInfo.name = value
                     case "email":
@@ -194,8 +212,10 @@ class LoginViewController: UIViewController {
                     }
                 }
             }
+            Logger.dynamoDB.debug("User info being returned.")
             return userInfo
         }
+        Logger.dynamoDB.debug("Nil being returned for user info")
         return nil
     }
     
@@ -207,30 +227,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         switch authorization.credential {
         case let appleIdCredential as ASAuthorizationAppleIDCredential:
             Task {
-                // TODO: This https://developer.apple.com/forums/thread/121496
-                guard let email = appleIdCredential.email else {
-                    Logger.userInfo.debug("Apple Sign In: No email.")
-                    showErrorWithSignIn()
-                    return
-                }
-                
-                guard let firstName = appleIdCredential.fullName?.givenName else {
-                    Logger.userInfo.debug("Apple Sign In: No first name.")
-                    showErrorWithSignIn()
-                    return
-                }
-                guard let lastName = appleIdCredential.fullName?.familyName else {
-                    Logger.userInfo.debug("Apple Sign In: No last name.")
-                    showErrorWithSignIn()
-                    return
-                }
-                let name = firstName + " " + lastName
-                    
-                await handleSignIn(userInfo: UserProfileInfo(name: name, email: email))
+                let name = (appleIdCredential.fullName?.givenName ?? "") + " " + (appleIdCredential.fullName?.familyName ?? "")
+                await handleSignIn(uuid: appleIdCredential.user,
+                                   name: name,
+                                   email: appleIdCredential.email)
+                self.goToMainApp()
             }
             break
             
-        // TODO: Needed?
+#warning("TODO needed?")
         case let passwordCredential as ASPasswordCredential:
             // Sign in using exisiting iCloud Keychain credential.
             // For the purpose of this demo app, show alert
