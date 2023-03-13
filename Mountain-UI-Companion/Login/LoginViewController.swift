@@ -133,7 +133,7 @@ class LoginViewController: UIViewController {
     }
     
     func userAlreadyExists(email: String) async throws -> Bool {
-        if let _ = await DynamoDBUtils.getDynamoDbItem(email: email) {
+        if let _ = await DynamoDBUtils.getDynamoDBItem(email: email) {
             return true
         } else {
             return false

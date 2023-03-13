@@ -27,7 +27,7 @@ struct DynamoDBUtils {
         }
     }
     
-    static func getDynamoDbItem(email: String) async -> [String : DynamoDBClientTypes.AttributeValue]? {
+    static func getDynamoDBItem(email: String) async -> [String : DynamoDBClientTypes.AttributeValue]? {
         let keyToGet = ["email" : DynamoDBClientTypes.AttributeValue.s(email)]
         let input = GetItemInput(key: keyToGet, tableName: usersTable)
         do {
@@ -38,19 +38,28 @@ struct DynamoDBUtils {
         return nil
     }
     
-    
-    static func updateDynamoDbItem(
-        keyName: String,
-        keyVal: String,
-        name: String,
-        newValue: String) async {
-            let itemKey = [keyName : DynamoDBClientTypes.AttributeValue.s(keyVal)]
-            let updatedValues = [name: DynamoDBClientTypes.AttributeValueUpdate(action: .put, value: DynamoDBClientTypes.AttributeValue.s(newValue))]
-            do {
-                let _ = try await dynamoDBClient.updateItem(input: UpdateItemInput(attributeUpdates: updatedValues, key: itemKey, tableName: usersTable))
-                
-            } catch {
-                print("ERROR: \(error.localizedDescription)")
-            }
+    static func updateDynamoDBItem(email: String,
+                                   name: String,
+                                   newValue: String) async {
+        let itemKey = ["email" : DynamoDBClientTypes.AttributeValue.s(email)]
+        let updatedValues = [name: DynamoDBClientTypes.AttributeValueUpdate(action: .put, value: DynamoDBClientTypes.AttributeValue.s(newValue))]
+        do {
+            let _ = try await dynamoDBClient.updateItem(input: UpdateItemInput(attributeUpdates: updatedValues, key: itemKey, tableName: usersTable))
+            
+        } catch {
+            print("ERROR: \(error.localizedDescription)")
         }
+    }
+    
+    static func deleteDynamoDBItem(email: String) async {
+        let keyToDelete = ["email" : DynamoDBClientTypes.AttributeValue.s(email)]
+        
+        do {
+            let _ = try await dynamoDBClient.deleteItem(input: DeleteItemInput(key: keyToDelete,
+                                                                               tableName: usersTable))
+        } catch {
+            print("ERROR: \(error.localizedDescription)")
+        }
+        
+    }
 }
