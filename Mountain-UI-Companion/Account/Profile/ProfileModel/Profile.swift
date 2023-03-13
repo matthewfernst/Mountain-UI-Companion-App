@@ -39,17 +39,6 @@ class Profile {
         ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))?.withTintColor(.label)
     }
     
-//    static func createProfile(name: String, email: String, profilePictureURL: URL? = nil) -> Profile {
-//        guard let profilePictureURL = profilePictureURL else {
-//            return Profile(name: name, email: email)
-//        }
-//        if let imageData = try? Data(contentsOf: profilePictureURL) {
-//            let profilePicture = UIImage(data: imageData)
-//            return Profile(name: name, email: email, profilePicture: profilePicture)
-//        }
-//        return Profile(name: name, email: email)
-//    }
-    
     static func createProfile(name: String, email: String, profilePictureURL: URL? = nil, completion: @escaping (Profile) -> Void) {
         guard let profilePictureURL = profilePictureURL else {
             completion(Profile(name: name, email: email))

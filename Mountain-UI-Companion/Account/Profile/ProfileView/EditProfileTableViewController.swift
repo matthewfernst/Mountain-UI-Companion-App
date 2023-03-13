@@ -61,7 +61,6 @@ class EditProfileTableViewController: UITableViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    // TODO: Implement -> How to get data from text fields?
     @objc func saveNameAndEmailChanges()  {
         let newProfilePictureURL = URL(string: "https://i.imgur.com/w5rkSIj.jpg")!
         
@@ -80,9 +79,11 @@ class EditProfileTableViewController: UITableViewController {
         // Update shared profile to update all other views
         Profile.createProfile(name: newName, email: email, profilePictureURL: newProfilePictureURL) { [unowned self] newProfile in
             self.profileViewModel.updateProfile(newProfile: newProfile)
+            DispatchQueue.main.async {
+                // Refresh the previous view controller
+                self.navigationController?.popViewController(animated: true)
+            }
         }
-        
-        self.navigationController?.popViewController(animated: true)
         
     }
     
