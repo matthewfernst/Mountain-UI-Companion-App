@@ -64,6 +64,11 @@ class Profile {
 
 }
 
+struct UserProfileInfo {
+    var name: String
+    var email: String
+    var profilePictureURL: URL?
+}
 
 #if DEBUG
 extension Profile {

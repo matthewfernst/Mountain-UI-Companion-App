@@ -62,6 +62,7 @@ class EditProfileTableViewController: UITableViewController {
     }
     
     @objc func saveNameAndEmailChanges()  {
+        // TODO: Add Profile Picture Change -> Image Picker needed.
         let newProfilePictureURL = URL(string: "https://i.imgur.com/w5rkSIj.jpg")!
         
         let firstName = changedFirstName ?? profile.firstName
@@ -116,6 +117,7 @@ class EditProfileTableViewController: UITableViewController {
                 return nameCell
                 
             case .email:
+                // TODO: Change to disabled and give alert controller.
                 guard let emailCell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.identifier, for: indexPath) as? EmailTableViewCell else { return UITableViewCell()
                 }
                 emailCell.configure(email: profile.email)
