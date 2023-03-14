@@ -40,7 +40,7 @@ class LogBookViewController: UIViewController, UITableViewDelegate, UITableViewD
         sessionSummaryTableView.register(SessionTableViewCell.self, forCellReuseIdentifier: SessionTableViewCell.identifier)
         sessionSummaryTableView.rowHeight = 66.0
         
-        let profileImage = profile.profilePicture ?? profile.defaultLogbookProfilePicture
+        let profileImage = profile.profilePicture ?? profile.defaultLargeProfilePicture
         profileImageView.image = profileImage
         profileImageView.backgroundColor = .secondarySystemBackground
         profileImageView.makeRounded()

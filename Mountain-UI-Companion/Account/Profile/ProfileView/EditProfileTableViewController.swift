@@ -20,6 +20,7 @@ class EditProfileTableViewController: UITableViewController {
     private var changeFirstName: String?
     private var changeLastName: String?
     private var changeEmail: String?
+    private var changeProfilePicture: UIImage?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +49,6 @@ class EditProfileTableViewController: UITableViewController {
     
     @objc func saveNameAndEmailChanges()  {
 #warning("TODO: Add Profile Picture Change -> Image Picker needed.")
-        let newProfilePictureURL = URL(string: "https://i.imgur.com/w5rkSIj.jpg")!
         // Update Dynamo
         let newName: String
         if let firstName = changeFirstName, let lastName = changeLastName {
@@ -59,11 +59,22 @@ class EditProfileTableViewController: UITableViewController {
         
         let newEmail = changeEmail ?? self.profileViewModel.email
         
+        var newProfilePictureURL = self.profileViewModel.profilePictureURL
+        if let changeProfilePicture = changeProfilePicture {
+            // store in S3 and get URL back
+            Task {
+                try await S3Utils.uploadProfilePictureToS3(picture: changeProfilePicture)
+                newProfilePictureURL = await S3Utils.getObjectURL()
+            }
+        } else {
+            newProfilePictureURL = self.profileViewModel.profilePictureURL ?? URL(string: "")!
+        }
+        
         Task {
             await DynamoDBUtils.updateDynamoDBItem(uuid: self.profileViewModel.uuid,
                                                    newName: newName,
                                                    newEmail: newEmail,
-                                                   newProfilePictureURL: newProfilePictureURL.absoluteString)
+                                                   newProfilePictureURL: newProfilePictureURL?.absoluteString ??  "https://blog.imgur.com/wp-content/uploads/2016/05/dog33.jpg")
         }
         
         // Update shared profile to update all other views
@@ -126,7 +137,7 @@ class EditProfileTableViewController: UITableViewController {
             guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell else {
                 return UITableViewCell()
             }
-            profileCell.configure(viewOn: self)
+            profileCell.configure(delegate: self)
             return profileCell
             
         case .changeNameAndEmail:
@@ -166,6 +177,10 @@ class EditProfileTableViewController: UITableViewController {
             return UITableViewCell()
         }
         
+    }
+    
+    func handleProfilePictureChange(newPicture: UIImage) {
+        changeProfilePicture = UIImage(systemName: "figure.wave.circle.fill")
     }
     
 }

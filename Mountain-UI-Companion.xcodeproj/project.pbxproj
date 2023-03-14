@@ -117,9 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				654DEAD12981BF6D001565A3 /* EditProfileTableViewController.swift */,
-				65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */,
-				65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */,
-				65E5ACE229C00E270093ECA9 /* ProfilePictureTableViewCell.swift */,
+				65E5ACE529C02F2D0093ECA9 /* ProfileTableViewCells */,
 			);
 			path = ProfileView;
 			sourceTree = "<group>";
@@ -254,6 +252,16 @@
 				65E5ACDC29BFFE620093ECA9 /* S3Utils.swift */,
 			);
 			path = SlopesConnection;
+			sourceTree = "<group>";
+		};
+		65E5ACE529C02F2D0093ECA9 /* ProfileTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */,
+				65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */,
+				65E5ACE229C00E270093ECA9 /* ProfilePictureTableViewCell.swift */,
+			);
+			path = ProfileTableViewCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -11,8 +11,9 @@ class ProfilePictureTableViewCell: UITableViewCell {
     
     static let identifier = "ProfilePictureTableViewCell"
     
-//        var delegate: EditProfileTableViewController?
-    var viewOn: EditProfileTableViewController?
+    var delegate: EditProfileTableViewController?
+    
+    let profileViewModel = ProfileViewModel.shared
     
     private let profilePictureView: UIImageView = {
         let imageView = UIImageView()
@@ -20,7 +21,7 @@ class ProfilePictureTableViewCell: UITableViewCell {
         imageView.backgroundColor = .secondarySystemFill
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 40 // set the corner radius to half of the view's height to create a circular shape
+        imageView.layer.cornerRadius = 50 // set the corner radius to half of the view's height to create a circular shape
         return imageView
     }()
     
@@ -32,17 +33,21 @@ class ProfilePictureTableViewCell: UITableViewCell {
         
         let button = UIButton(configuration: configuration)
         button.isUserInteractionEnabled = true
-        button.addTarget(self.viewOn, action: #selector(handleChangeProfilePicture), for: .touchUpInside)
+        button.addTarget(self.delegate, action: #selector(handleChangeProfilePicture), for: .touchUpInside)
         return button
     }()
     
     @objc func handleChangeProfilePicture() {
         let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         ac.addAction(UIAlertAction(title: "Replace", style: .default))
-        ac.addAction(UIAlertAction(title: "Remove", style: .destructive))
+        ac.addAction(UIAlertAction(title: "Remove", style: .destructive){ [unowned self] _ in
+            let newPicture = self.profileViewModel.defaultProfilePictureSmall
+            self.profilePictureView.image = newPicture
+            self.delegate?.handleProfilePictureChange(newPicture: newPicture)
+        })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         
-        self.viewOn!.present(ac, animated: true)
+        self.delegate!.present(ac, animated: true)
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -55,20 +60,22 @@ class ProfilePictureTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(viewOn: EditProfileTableViewController) {
+    public func configure(delegate: EditProfileTableViewController) {
+        profilePictureView.image = self.profileViewModel.profilePicture ?? self.profileViewModel.defaultProfilePictureSmall
+        
+        self.delegate = delegate
+        
         self.backgroundColor = .systemBackground
         self.selectionStyle = .none
-        self.viewOn = viewOn
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        
         let margin: CGFloat = 16
         
         // Get the intrinsic content size of the profile picture view
-        let imageViewSize = CGSize(width: 80, height: 80) // set to the size you want
+        let imageViewSize = CGSize(width: 100, height: 100) // set to the size you want
         
         // Set the profile picture frame to be centered horizontally and aligned to the top of the contentView with a margin of 16 points
         profilePictureView.frame = CGRect(x: contentView.bounds.midX - imageViewSize.width / 2,

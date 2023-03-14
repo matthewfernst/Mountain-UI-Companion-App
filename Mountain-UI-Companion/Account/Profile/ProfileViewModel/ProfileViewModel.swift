@@ -28,12 +28,16 @@ class ProfileViewModel {
         return profile?.profilePicture
     }
     
+    var profilePictureURL: URL? {
+        return profile?.profilePictureURL
+    }
+    
     var defaultProfilePictureLarge: UIImage {
-        return (profile?.defaultLogbookProfilePicture)!
+        return (profile?.defaultLargeProfilePicture)!
     }
     
     var defaultProfilePictureSmall: UIImage {
-        return (profile?.defaultAccountSettingsProfilePicture)!
+        return (profile?.defaultSmallProfilePicture)!
     }
     
     func updateProfile(newProfile: Profile) {

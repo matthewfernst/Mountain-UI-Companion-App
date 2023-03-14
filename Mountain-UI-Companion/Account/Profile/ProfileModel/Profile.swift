@@ -17,8 +17,9 @@ class Profile {
     var lastName: String
     var email: String
     var profilePicture: UIImage?
-    var defaultLogbookProfilePicture: UIImage!
-    var defaultAccountSettingsProfilePicture: UIImage!
+    var profilePictureURL: URL?
+    var defaultLargeProfilePicture: UIImage!
+    var defaultSmallProfilePicture: UIImage!
     // TODO: Season Stats in different place?
     // var seasonSummary = [SessionSummary?]()
     // var mostRecentSessionSummary = [SessionSummary?]()
@@ -32,8 +33,8 @@ class Profile {
         self.email = email
         
         self.profilePicture = profilePicture
-        self.defaultLogbookProfilePicture = name.initials.image(move: .zero)?.withTintColor(.label)
-        self.defaultAccountSettingsProfilePicture = name.initials.image(withAttributes: [
+        self.defaultLargeProfilePicture = name.initials.image(move: .zero)?.withTintColor(.label)
+        self.defaultSmallProfilePicture = name.initials.image(withAttributes: [
             .font: UIFont.systemFont(ofSize: 45, weight: .medium),
         ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))?.withTintColor(.label)
     }
@@ -57,6 +58,7 @@ class Profile {
             }
             
             let profile = Profile(uuid: uuid, name: name, email: email, profilePicture: profilePicture)
+            profile.profilePictureURL = profilePictureURL
             completion(profile)
         }.resume()
     }
