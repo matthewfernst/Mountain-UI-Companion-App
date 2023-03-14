@@ -9,6 +9,7 @@ import AWSClientRuntime
 import AWSS3
 import ClientRuntime
 import UIKit
+import OSLog
 import UniformTypeIdentifiers
 
 extension UTType {
@@ -18,16 +19,15 @@ extension UTType {
 }
 
 class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate {
-    let bucketName = "mountain-ui-app-slopes-zipped"
-    let s3Client = try! S3Client(region: "us-east-1")
-    
     @IBOutlet var explanationTitleLabel: UILabel!
     @IBOutlet var explanationTextView: UITextView!
     @IBOutlet var slopesFolderImageView: UIImageView!
     @IBOutlet var connectSlopesButton: UIButton!
     
-    var documentPicker: UIDocumentPickerViewController!
-    var bookmarks: [(uuid: String, url: URL)] = []
+    private var documentPicker: UIDocumentPickerViewController!
+    private var bookmarks: [(uuid: String, url: URL)] = []
+    
+    private let profileViewModel = ProfileViewModel.shared
     
     private func getAppSandboxDirectory() -> URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -44,7 +44,6 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
             documentPicker.allowsMultipleSelection = true
             
             connectSlopesButton.addTarget(self, action: #selector(selectSlopesFiles), for: .touchUpInside)
-            
         }
         else {
             explanationTitleLabel.text = "You're All Set!"
@@ -81,11 +80,56 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
         })
     }
     
+    // MARK: Error Alert Functions
+    func showErrorUploadingToS3Alert() {
+        let ac = UIAlertController(title: "Error Uploading Slope Documents",
+                                   message: """
+                                    There was an error uploading your slope documents.
+                                    Please try again.
+                                    """,
+                                   preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(ac, animated: true)
+    }
+    
+    func showFileAccessNotAllowed() {
+        let ac = UIAlertController(title: "File Permission Error",
+                                   message: """
+                                    This app does not have permission to your files on your iPhone.
+                                    Please allow this app to access your files by going to Settings.
+                                    """,
+                                   preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Go to Settings", style: .default) { (_) -> Void in
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                      return
+                  }
+
+                  if UIApplication.shared.canOpenURL(settingsUrl) {
+                      UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                          Logger.slopesConnection.debug("Settings opened.")
+                      })
+                  }
+        })
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(ac, animated: true)
+    }
+    
+    func showFileExtensionNotSupported(file: URL) {
+        let ac = UIAlertController(title: "File Extension Not Supported", message: "Only 'slope' file extensions are supported, but recieved \(file.pathExtension) extension. Please try again.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
+        
+        present(ac, animated: true)
+    }
+    
+    // MARK: Document Picker
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         let url = urls[0]
         
         guard url.startAccessingSecurityScopedResource() else {
             // Handle the failure here.
+            showFileAccessNotAllowed()
             return
         }
         
@@ -94,32 +138,32 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
         let keys: [URLResourceKey] = [.nameKey, .isDirectoryKey]
         
         guard let fileList = FileManager.default.enumerator(at: url, includingPropertiesForKeys: keys) else {
-            Swift.debugPrint("*** Unable to access the contents of \(url.path) ***\n")
+            Logger.slopesConnection.debug("*** Unable to access the contents of \(url.path) ***\n")
+            showFileAccessNotAllowed()
             return
         }
         
         for case let file as URL in fileList {
-            print(file.pathExtension)
             if file.pathExtension == "slopes" {
-                Swift.debugPrint("chosen file: \(file.lastPathComponent)")
+                Logger.slopesConnection.debug("chosen file: \(file.lastPathComponent)")
                 Task {
                     do {
-                        try await uploadSlopesDataToS3(file: file)
+                        try await S3Utils.uploadSlopesDataToS3(file: file)
                     } catch {
-                        print(error)
+                        Logger.slopesConnection.debug("\(error)")
+                        showErrorUploadingToS3Alert()
                     }
                 }
                 url.stopAccessingSecurityScopedResource()
                 saveBookmark(for: url)
             } else {
-                let ac = UIAlertController(title: "File Extension Not Supported", message: "Only 'slope' file extensions are supported, but recieved \(file.pathExtension) extension. Please try again.", preferredStyle: .alert)
-                ac.addAction(UIAlertAction(title: "Dismiss", style: .cancel))
-                present(ac, animated: true)
-                Swift.debugPrint("Only slope file extensions are supported, but recieved \(file.pathExtension) extension.")
+                showFileExtensionNotSupported(file: file)
+                Logger.slopesConnection.debug("Only slope file extensions are supported, but recieved \(file.pathExtension) extension.")
             }
         }
     }
     
+    // MARK: Bookmarks
     func saveBookmark(for url: URL) {
         do {
             // Start accessing a security-scoped resource.
@@ -149,7 +193,7 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
         }
         catch {
             // Handle the error here.
-            print("Error creating the bookmark: \(error.localizedDescription)")
+            Logger.slopesConnection.debug("Error creating the bookmark: \(error)")
         }
     }
     
@@ -179,39 +223,20 @@ class SlopesConnectionViewController: UIViewController, UIDocumentPickerDelegate
             }
         } ?? []
     }
-    
-    func uploadSlopesDataToS3(file: URL) async throws -> PutObjectOutputResponse {
-        enum ValidationError: Error {
-            case emptyName
-        }
-        guard let userEmail = UserDefaults.standard.string(forKey: "email") else { throw ValidationError.emptyName}
-        let fileKey = "\(String(describing: userEmail))/\(file.lastPathComponent)"
-        let fileData = try Data(contentsOf: file)
-        return try await createFile(key: fileKey, data: fileData)
-    }
-    
-    func createFile(key: String, data: Data) async throws -> PutObjectOutputResponse {
-        let dataStream = ByteStream.from(data: data)
-        let input = PutObjectInput(
-            body: dataStream,
-            bucket: bucketName,
-            key: key
-        )
-        return try await s3Client.putObject(input: input)
-    }
+
     #warning ("TODO maybe not need?")
-    //        func removeBookmark(at offsets: IndexSet) {
-    //            let uuids = offsets.map( { bookmarks[$0].uuid } )
-    //
-    //            // Remove bookmarks from urls array
-    //            bookmarks.remove(atOffsets: offsets)
-    //
-    //            // Delete the bookmark file
-    //            uuids.forEach({ uuid in
-    //                let url = getAppSandboxDirectory().appendingPathComponent(uuid)
-    //                try? FileManager.default.removeItem(at: url)
-    //            })
-    //        }
+//    func removeBookmark(at offsets: IndexSet) {
+//        let uuids = offsets.map( { bookmarks[$0].uuid } )
+//
+//        // Remove bookmarks from urls array
+//        bookmarks.remove(atOffsets: offsets)
+//
+//        // Delete the bookmark file
+//        uuids.forEach({ uuid in
+//            let url = getAppSandboxDirectory().appendingPathComponent(uuid)
+//            try? FileManager.default.removeItem(at: url)
+//        })
+//    }
     
     
 }
