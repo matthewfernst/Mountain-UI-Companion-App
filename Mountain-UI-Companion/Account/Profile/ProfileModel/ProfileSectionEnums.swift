@@ -13,8 +13,9 @@ enum DefaultProfilePictureIndex: Int, CaseIterable {
 }
 
 enum ProfileSections: Int, CaseIterable {
-    case changeNameAndEmail = 0
-    case signOut = 1
+    case changeProfilePicture = 0
+    case changeNameAndEmail = 1
+    case signOut = 2
 }
 
 enum NameAndEmailSections: Int, CaseIterable {

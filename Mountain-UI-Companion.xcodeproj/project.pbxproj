@@ -39,6 +39,7 @@
 		65BA545829BC273200CA3F53 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 65BA545729BC273200CA3F53 /* GoogleSignInSwift */; };
 		65E5ACDD29BFFE620093ECA9 /* S3Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E5ACDC29BFFE620093ECA9 /* S3Utils.swift */; };
 		65E5ACDF29C004D80093ECA9 /* ProfileSectionEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E5ACDE29C004D80093ECA9 /* ProfileSectionEnums.swift */; };
+		65E5ACE329C00E270093ECA9 /* ProfilePictureTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E5ACE229C00E270093ECA9 /* ProfilePictureTableViewCell.swift */; };
 		B4EB93FD29BCE2A7006B218F /* AWSDynamoDB in Frameworks */ = {isa = PBXBuildFile; productRef = B4EB93FC29BCE2A7006B218F /* AWSDynamoDB */; };
 		B4EB93FF29BCE2A7006B218F /* AWSS3 in Frameworks */ = {isa = PBXBuildFile; productRef = B4EB93FE29BCE2A7006B218F /* AWSS3 */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		65AF9FF5297F355500DC59C3 /* LogBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogBookViewController.swift; sourceTree = "<group>"; };
 		65E5ACDC29BFFE620093ECA9 /* S3Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Utils.swift; sourceTree = "<group>"; };
 		65E5ACDE29C004D80093ECA9 /* ProfileSectionEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSectionEnums.swift; sourceTree = "<group>"; };
+		65E5ACE229C00E270093ECA9 /* ProfilePictureTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePictureTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 				654DEAD12981BF6D001565A3 /* EditProfileTableViewController.swift */,
 				65478ADC29BE6FB100861A63 /* EmailTableViewCell.swift */,
 				65478ADE29BE8B4400861A63 /* NameTableViewCell.swift */,
+				65E5ACE229C00E270093ECA9 /* ProfilePictureTableViewCell.swift */,
 			);
 			path = ProfileView;
 			sourceTree = "<group>";
@@ -350,6 +353,7 @@
 				65A370F3297E5DCD00E1D851 /* Setting.swift in Sources */,
 				65A370E0297E594500E1D851 /* ViewController.swift in Sources */,
 				65478AE129BE972500861A63 /* DynamoDBUtils.swift in Sources */,
+				65E5ACE329C00E270093ECA9 /* ProfilePictureTableViewCell.swift in Sources */,
 				65478AE729BEBB6500861A63 /* ProfileViewModel.swift in Sources */,
 				653A0E5F29BCFE8200C8F308 /* SignInWithGoogleButton.swift in Sources */,
 				65AF9FF6297F355500DC59C3 /* LogBookViewController.swift in Sources */,

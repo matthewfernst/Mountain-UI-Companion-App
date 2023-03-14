@@ -17,6 +17,10 @@ class EditProfileTableViewController: UITableViewController {
     private let dynamoDBClient = DynamoDBUtils.dynamoDBClient
     private let userTable = DynamoDBUtils.usersTable
     
+    private var changeFirstName: String?
+    private var changeLastName: String?
+    private var changeEmail: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -28,6 +32,8 @@ class EditProfileTableViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(goBackToSettings))
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveNameAndEmailChanges))
         
+        self.tableView.delaysContentTouches = false
+        tableView.register(ProfilePictureTableViewCell.self, forCellReuseIdentifier: ProfilePictureTableViewCell.identifier)
         tableView.register(NameTableViewCell.self, forCellReuseIdentifier: NameTableViewCell.identifier)
         tableView.register(EmailTableViewCell.self, forCellReuseIdentifier: EmailTableViewCell.identifier)
     }
@@ -41,20 +47,29 @@ class EditProfileTableViewController: UITableViewController {
     }
     
     @objc func saveNameAndEmailChanges()  {
-        #warning("TODO: Add Profile Picture Change -> Image Picker needed.")
+#warning("TODO: Add Profile Picture Change -> Image Picker needed.")
         let newProfilePictureURL = URL(string: "https://i.imgur.com/w5rkSIj.jpg")!
         // Update Dynamo
+        let newName: String
+        if let firstName = changeFirstName, let lastName = changeLastName {
+            newName = firstName + " " + lastName
+        } else {
+            newName = self.profileViewModel.name
+        }
+        
+        let newEmail = changeEmail ?? self.profileViewModel.email
+        
         Task {
             await DynamoDBUtils.updateDynamoDBItem(uuid: self.profileViewModel.uuid,
-                                                   newName: self.profileViewModel.name,
-                                                   newEmail: self.profileViewModel.email,
+                                                   newName: newName,
+                                                   newEmail: newEmail,
                                                    newProfilePictureURL: newProfilePictureURL.absoluteString)
         }
         
         // Update shared profile to update all other views
         Profile.createProfile(uuid: self.profileViewModel.uuid,
-                              name: self.profileViewModel.name,
-                              email: self.profileViewModel.email,
+                              name: newName,
+                              email: newEmail,
                               profilePictureURL: newProfilePictureURL) { [unowned self] newProfile in
             self.profileViewModel.updateProfile(newProfile: newProfile)
             DispatchQueue.main.async {
@@ -69,8 +84,33 @@ class EditProfileTableViewController: UITableViewController {
         return ProfileSections.allCases.count
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch ProfileSections(rawValue: indexPath.section) {
+        case .changeProfilePicture:
+            return 150
+        default:
+            return -1
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 10
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        switch ProfileSections(rawValue: section) {
+        case .changeProfilePicture:
+            return 2
+        default:
+            return 18
+        }
+    }
+    
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch ProfileSections(rawValue: section) {
+        case .changeProfilePicture:
+            return 1
         case .changeNameAndEmail:
             return 2
         case .signOut:
@@ -82,6 +122,13 @@ class EditProfileTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch ProfileSections(rawValue: indexPath.section) {
+        case .changeProfilePicture:
+            guard let profileCell = tableView.dequeueReusableCell(withIdentifier: ProfilePictureTableViewCell.identifier, for: indexPath) as? ProfilePictureTableViewCell else {
+                return UITableViewCell()
+            }
+            profileCell.configure(viewOn: self)
+            return profileCell
+            
         case .changeNameAndEmail:
             switch NameAndEmailSections(rawValue: indexPath.row) {
             case .name:
@@ -125,24 +172,35 @@ class EditProfileTableViewController: UITableViewController {
 
 
 extension EditProfileTableViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        switch EditProfileTextFieldTags(rawValue: textField.tag) {
+    
+    func setTextForProfile(text: String, tag: Int) {
+        switch EditProfileTextFieldTags(rawValue: tag) {
         case .firstName:
-            if let text = textField.text {
-                self.profileViewModel.profile?.firstName = (text as NSString).replacingCharacters(in: range, with: string)
-            }
+            changeFirstName = text
         case .lastName:
-            if let text = textField.text {
-                self.profileViewModel.profile?.lastName = (text as NSString).replacingCharacters(in: range, with: string)
-            }
+            changeLastName = text
         case .email:
-            if let text = textField.text {
-                self.profileViewModel.profile?.email = (text as NSString).replacingCharacters(in: range, with: string)
-            }
+            changeLastName = text
         default:
             break
         }
-        self.profile = self.profileViewModel.profile
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        guard let text = textField.text else { return false }
+        
+        setTextForProfile(text: text, tag: textField.tag)
+        
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard var text = textField.text else { return false }
+        text = (text as NSString).replacingCharacters(in: range, with: string)
+        
+        setTextForProfile(text: text, tag: textField.tag)
+
         return true
     }
 }

@@ -21,11 +21,11 @@ class NameTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy var firstNameTextField: UITextField = {
+    private lazy var firstNameTextField: UITextField = {
         return getTextField(tag: EditProfileTextFieldTags.firstName.rawValue)
     }()
     
-    lazy var lastNameTextField: UITextField = {
+    private lazy var lastNameTextField: UITextField = {
         return getTextField(tag: EditProfileTextFieldTags.lastName.rawValue)
     }()
     
@@ -62,7 +62,7 @@ class NameTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let size =  contentView.frame.size.height
+        let size = contentView.frame.size.height
         
         nameLabel.frame = CGRect(x: 20, y: 0, width: size + 3, height: size)
         
