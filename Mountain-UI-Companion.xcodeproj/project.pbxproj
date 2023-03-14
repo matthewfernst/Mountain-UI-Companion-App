@@ -37,6 +37,7 @@
 		65AF9FF6297F355500DC59C3 /* LogBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65AF9FF5297F355500DC59C3 /* LogBookViewController.swift */; };
 		65BA545629BC273200CA3F53 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 65BA545529BC273200CA3F53 /* GoogleSignIn */; };
 		65BA545829BC273200CA3F53 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 65BA545729BC273200CA3F53 /* GoogleSignInSwift */; };
+		65E5ACDD29BFFE620093ECA9 /* S3Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E5ACDC29BFFE620093ECA9 /* S3Utils.swift */; };
 		B4EB93FD29BCE2A7006B218F /* AWSDynamoDB in Frameworks */ = {isa = PBXBuildFile; productRef = B4EB93FC29BCE2A7006B218F /* AWSDynamoDB */; };
 		B4EB93FF29BCE2A7006B218F /* AWSS3 in Frameworks */ = {isa = PBXBuildFile; productRef = B4EB93FE29BCE2A7006B218F /* AWSS3 */; };
 /* End PBXBuildFile section */
@@ -73,6 +74,7 @@
 		65A370F6297E6B5800E1D851 /* Support.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
 		65A370F8297E6B6F00E1D851 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		65AF9FF5297F355500DC59C3 /* LogBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogBookViewController.swift; sourceTree = "<group>"; };
+		65E5ACDC29BFFE620093ECA9 /* S3Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = S3Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,8 +199,8 @@
 				65A370DB297E594500E1D851 /* AppDelegate.swift */,
 				65A370DD297E594500E1D851 /* SceneDelegate.swift */,
 				65A370DF297E594500E1D851 /* ViewController.swift */,
-				654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */,
 				65A370E1297E594500E1D851 /* Main.storyboard */,
+				65E5ACDB29BFFE230093ECA9 /* SlopesConnection */,
 				65A370FC297E6F5100E1D851 /* Utils */,
 				653A0E5D29BCD20A00C8F308 /* Login */,
 				65AF9FF7297F355800DC59C3 /* LogBook */,
@@ -237,6 +239,15 @@
 				654DEAE329824134001565A3 /* SessionTableViewCell.swift */,
 			);
 			path = LogBook;
+			sourceTree = "<group>";
+		};
+		65E5ACDB29BFFE230093ECA9 /* SlopesConnection */ = {
+			isa = PBXGroup;
+			children = (
+				654DEAC2297F6720001565A3 /* SlopesConnectionViewController.swift */,
+				65E5ACDC29BFFE620093ECA9 /* S3Utils.swift */,
+			);
+			path = SlopesConnection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,6 +342,7 @@
 				654DEAE029820806001565A3 /* Profile.swift in Sources */,
 				654DEAE82983933C001565A3 /* LoginViewController.swift in Sources */,
 				65478ADD29BE6FB100861A63 /* EmailTableViewCell.swift in Sources */,
+				65E5ACDD29BFFE620093ECA9 /* S3Utils.swift in Sources */,
 				65A370F3297E5DCD00E1D851 /* Setting.swift in Sources */,
 				65A370E0297E594500E1D851 /* ViewController.swift in Sources */,
 				65478AE129BE972500861A63 /* DynamoDBUtils.swift in Sources */,

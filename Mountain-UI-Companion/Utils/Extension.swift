@@ -97,10 +97,10 @@ extension UIColor {
 
 extension Logger {
     private static var subsystem = Bundle.main.bundleIdentifier!
-
-    /// Logs the view cycles like viewDidLoad.
-    static let viewCycle = Logger(subsystem: subsystem, category: "viewcycle")
     
-    /// Logs information about users
-    static let userInfo = Logger(subsystem: subsystem, category: "info")
+    static let userInfo = Logger(subsystem: subsystem, category: "UserInfo")
+    
+    static let dynamoDB = Logger(subsystem: subsystem, category: "DynamoDB")
+    
+    static let slopesConnection = Logger(subsystem: subsystem, category: "SlopesConnection")
 }

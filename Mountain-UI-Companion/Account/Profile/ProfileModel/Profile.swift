@@ -14,6 +14,7 @@ enum DefaultProfilePictureIndex: Int, CaseIterable {
 }
 
 class Profile {
+    var uuid: String
     var name: String
     var firstName: String {
         name.components(separatedBy: " ")[0]
@@ -29,7 +30,8 @@ class Profile {
     // var seasonSummary = [SessionSummary?]()
     // var mostRecentSessionSummary = [SessionSummary?]()
     
-    init(name: String, email: String, profilePicture: UIImage? = nil) {
+    init(uuid: String, name: String, email: String, profilePicture: UIImage? = nil) {
+        self.uuid = uuid
         self.name = name
         self.email = email
         self.profilePicture = profilePicture
@@ -39,25 +41,25 @@ class Profile {
         ], size: CGSize(width: 110, height: 110), move: CGPoint(x: 22, y: 28))?.withTintColor(.label)
     }
     
-    static func createProfile(name: String, email: String, profilePictureURL: URL? = nil, completion: @escaping (Profile) -> Void) {
+    static func createProfile(uuid: String, name: String, email: String, profilePictureURL: URL? = nil, completion: @escaping (Profile) -> Void) {
         guard let profilePictureURL = profilePictureURL else {
-            completion(Profile(name: name, email: email))
+            completion(Profile(uuid: uuid, name: name, email: email))
             return
         }
         
         URLSession.shared.dataTask(with: profilePictureURL) { (data, response, error) in
             if let error = error {
                 print("Error downloading profile picture: \(error.localizedDescription)")
-                completion(Profile(name: name, email: email))
+                completion(Profile(uuid: uuid, name: name, email: email))
                 return
             }
             
             guard let data = data, let profilePicture = UIImage(data: data) else {
-                completion(Profile(name: name, email: email))
+                completion(Profile(uuid: uuid, name: name, email: email))
                 return
             }
             
-            let profile = Profile(name: name, email: email, profilePicture: profilePicture)
+            let profile = Profile(uuid: uuid, name: name, email: email, profilePicture: profilePicture)
             completion(profile)
         }.resume()
     }
@@ -65,6 +67,7 @@ class Profile {
 }
 
 struct UserProfileInfo {
+    var uuid: String
     var name: String
     var email: String
     var profilePictureURL: URL?
@@ -72,6 +75,6 @@ struct UserProfileInfo {
 
 #if DEBUG
 extension Profile {
-    static var sampleProfile = Profile(name: "John Appleseed", email: "johnappleseed@icloud.com")
+    static var sampleProfile = Profile(uuid: UUID().uuidString, name: "John Appleseed", email: "johnappleseed@icloud.com")
 }
 #endif

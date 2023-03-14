@@ -12,6 +12,10 @@ class ProfileViewModel {
     
     var profile: Profile?
     
+    var uuid: String {
+        return profile?.uuid ?? ""
+    }
+    
     var name: String {
         return profile?.name ?? ""
     }
