@@ -7,11 +7,6 @@
 
 import UIKit
 
-enum NameTextFieldTags: Int, CaseIterable {
-    case firstName = 0
-    case lastName = 1
-}
-
 class NameTableViewCell: UITableViewCell {
 
     static let identifier = "NameTableViewCell"
@@ -26,23 +21,22 @@ class NameTableViewCell: UITableViewCell {
         return label
     }()
     
-    let firstNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .words
-        textField.returnKeyType = .done
-        textField.tag = NameTextFieldTags.firstName.rawValue
-        return textField
+    lazy var firstNameTextField: UITextField = {
+        return getTextField(tag: EditProfileTextFieldTags.firstName.rawValue)
     }()
     
-    let lastNameTextField: UITextField = {
+    lazy var lastNameTextField: UITextField = {
+        return getTextField(tag: EditProfileTextFieldTags.lastName.rawValue)
+    }()
+    
+    private func getTextField(tag: Int) -> UITextField {
         let textField = UITextField()
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .words
         textField.returnKeyType = .done
-        textField.tag = NameTextFieldTags.lastName.rawValue
+        textField.tag = tag
         return textField
-    }()
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

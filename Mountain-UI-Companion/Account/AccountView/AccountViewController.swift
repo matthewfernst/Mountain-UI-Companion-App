@@ -123,7 +123,7 @@ class AccountViewController: UITableViewController {
         case .support:
             let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: MadeWithLoveFooterView.identifier) as! MadeWithLoveFooterView
             footer.appVersionLabel.text = "Version 1.0.0"
-            footer.madeWithLoveLabel.text = "Made with ❤️+☕️ in San Diego, CA and Seattle, WA"
+            footer.madeWithLoveLabel.text = "Made with ❤️+☕️ in Steamboat Springs, CO"
             return footer
         default:
             return nil

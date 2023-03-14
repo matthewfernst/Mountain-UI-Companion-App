@@ -7,16 +7,6 @@
 
 import UIKit
 
-enum ProfileSections: Int, CaseIterable {
-    case changeNameAndEmail = 0
-    case signOut = 1
-}
-
-enum NameAndEmailSections: Int, CaseIterable {
-    case name = 0
-    case email = 1
-}
-
 class EditProfileTableViewController: UITableViewController {
     
     static var identifier = "EditProfileTableViewController"
@@ -26,9 +16,6 @@ class EditProfileTableViewController: UITableViewController {
     
     private let dynamoDBClient = DynamoDBUtils.dynamoDBClient
     private let userTable = DynamoDBUtils.usersTable
-    
-    private var changedFirstName: String? = nil
-    private var changedLastName: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,14 +32,6 @@ class EditProfileTableViewController: UITableViewController {
         tableView.register(EmailTableViewCell.self, forCellReuseIdentifier: EmailTableViewCell.identifier)
     }
     
-    func handleFirstNameChange(newFirstName: String) {
-        changedFirstName = newFirstName
-    }
-    
-    func handleLastNameChange(newLastName: String) {
-        changedLastName = newLastName
-    }
-    
     func bindViewModel() {
         profile = profileViewModel.profile
     }
@@ -64,21 +43,19 @@ class EditProfileTableViewController: UITableViewController {
     @objc func saveNameAndEmailChanges()  {
         #warning("TODO: Add Profile Picture Change -> Image Picker needed.")
         let newProfilePictureURL = URL(string: "https://i.imgur.com/w5rkSIj.jpg")!
-        
-        let firstName = changedFirstName ?? profile.firstName
-        let lastName = changedLastName ?? profile.lastName
-        let email = "matthew.f.ernst@gmail.com"
-        
-        let newName = firstName + " " + lastName
         // Update Dynamo
         Task {
             await DynamoDBUtils.updateDynamoDBItem(uuid: self.profileViewModel.uuid,
-                                                   newName: newName,
+                                                   newName: self.profileViewModel.name,
+                                                   newEmail: self.profileViewModel.email,
                                                    newProfilePictureURL: newProfilePictureURL.absoluteString)
         }
         
         // Update shared profile to update all other views
-        Profile.createProfile(uuid: self.profileViewModel.uuid, name: newName, email: email, profilePictureURL: newProfilePictureURL) { [unowned self] newProfile in
+        Profile.createProfile(uuid: self.profileViewModel.uuid,
+                              name: self.profileViewModel.name,
+                              email: self.profileViewModel.email,
+                              profilePictureURL: newProfilePictureURL) { [unowned self] newProfile in
             self.profileViewModel.updateProfile(newProfile: newProfile)
             DispatchQueue.main.async {
                 // Refresh the previous view controller
@@ -119,7 +96,7 @@ class EditProfileTableViewController: UITableViewController {
             case .email:
                 guard let emailCell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.identifier, for: indexPath) as? EmailTableViewCell else { return UITableViewCell()
                 }
-                emailCell.configure(email: profile.email)
+                emailCell.configure(email: profile.email, delegate: self)
                 
                 return emailCell
             default:
@@ -149,20 +126,23 @@ class EditProfileTableViewController: UITableViewController {
 
 extension EditProfileTableViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        switch NameTextFieldTags(rawValue: textField.tag) {
+        switch EditProfileTextFieldTags(rawValue: textField.tag) {
         case .firstName:
             if let text = textField.text {
-                let newFirstName = (text as NSString).replacingCharacters(in: range, with: string)
-                self.handleFirstNameChange(newFirstName: newFirstName)
+                self.profileViewModel.profile?.firstName = (text as NSString).replacingCharacters(in: range, with: string)
             }
         case .lastName:
             if let text = textField.text {
-                let newLastName = (text as NSString).replacingCharacters(in: range, with: string)
-                self.handleLastNameChange(newLastName: newLastName)
+                self.profileViewModel.profile?.lastName = (text as NSString).replacingCharacters(in: range, with: string)
+            }
+        case .email:
+            if let text = textField.text {
+                self.profileViewModel.profile?.email = (text as NSString).replacingCharacters(in: range, with: string)
             }
         default:
             break
         }
+        self.profile = self.profileViewModel.profile
         return true
     }
 }

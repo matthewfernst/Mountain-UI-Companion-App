@@ -11,6 +11,8 @@ class EmailTableViewCell: UITableViewCell {
     
     static let identifier = "EmailTableViewCell"
     
+    var delegate: EditProfileTableViewController?
+    
      let emailLabel: UILabel = {
         let label = UILabel()
         label.text = "Email"
@@ -20,7 +22,12 @@ class EmailTableViewCell: UITableViewCell {
     }()
     
     public let emailTextField: UITextField = {
-        return UITextField()
+        let textField = UITextField()
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.returnKeyType = .done
+        textField.tag = EditProfileTextFieldTags.email.rawValue
+        return textField
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -33,11 +40,13 @@ class EmailTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(email: String) {
+    public func configure(email: String, delegate: EditProfileTableViewController) {
         emailTextField.text = email
         
         self.backgroundColor = .secondarySystemBackground
         self.selectionStyle = .none
+        
+        self.delegate = delegate
     }
     
     override func layoutSubviews() {
@@ -47,6 +56,8 @@ class EmailTableViewCell: UITableViewCell {
         emailLabel.frame = CGRect(x: 20, y: 0, width: size, height: size)
         
         emailTextField.frame = CGRect(x: emailLabel.frame.midX + 40, y: 0, width: size * 5, height: size)
+        
+        emailTextField.delegate = delegate
     }
     
     override func awakeFromNib() {

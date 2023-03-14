@@ -41,9 +41,11 @@ struct DynamoDBUtils {
     
     static func updateDynamoDBItem(uuid: String,
                                    newName: String,
+                                   newEmail: String,
                                    newProfilePictureURL: String) async {
         let itemKey = ["uuid" : DynamoDBClientTypes.AttributeValue.s(uuid)]
         let updatedValues = ["name": DynamoDBClientTypes.AttributeValueUpdate(action: .put, value: DynamoDBClientTypes.AttributeValue.s(newName)),
+                             "email": DynamoDBClientTypes.AttributeValueUpdate(action: .put, value: DynamoDBClientTypes.AttributeValue.s(newEmail)),
                              "profilePictureURL": DynamoDBClientTypes.AttributeValueUpdate(action: .put, value: DynamoDBClientTypes.AttributeValue.s(newProfilePictureURL))]
         do {
             let _ = try await dynamoDBClient.updateItem(input: UpdateItemInput(attributeUpdates: updatedValues, key: itemKey, tableName: usersTable))

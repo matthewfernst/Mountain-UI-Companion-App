@@ -8,20 +8,13 @@
 import Foundation
 import UIKit
 
-enum DefaultProfilePictureIndex: Int, CaseIterable {
-    case accountSettings = 0
-    case logBook = 1
-}
-
 class Profile {
     var uuid: String
-    var name: String
-    var firstName: String {
-        name.components(separatedBy: " ")[0]
+    var name: String {
+        firstName + " " + lastName
     }
-    var lastName: String {
-        name.components(separatedBy: " ")[1]
-    }
+    var firstName: String
+    var lastName: String
     var email: String
     var profilePicture: UIImage?
     var defaultLogbookProfilePicture: UIImage!
@@ -32,8 +25,12 @@ class Profile {
     
     init(uuid: String, name: String, email: String, profilePicture: UIImage? = nil) {
         self.uuid = uuid
-        self.name = name
+        
+        self.firstName = name.components(separatedBy: " ")[0]
+        self.lastName = name.components(separatedBy: " ")[1]
+        
         self.email = email
+        
         self.profilePicture = profilePicture
         self.defaultLogbookProfilePicture = name.initials.image(move: .zero)?.withTintColor(.label)
         self.defaultAccountSettingsProfilePicture = name.initials.image(withAttributes: [
